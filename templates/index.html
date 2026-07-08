@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Diagnostics Web Portal</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 20px auto; padding: 15px; line-height: 1.6; color: #333; background-color: #f4f7f6; }
+        .card { border: 1px solid #e0e0e0; padding: 20px; border-radius: 12px; background: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; }
+        .form-group { flex: 1; display: flex; flex-direction: column; }
+        label { margin-bottom: 6px; font-weight: 600; font-size: 14px; }
+        select, input { padding: 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; box-sizing: border-box; width: 100%; }
+        .error-alert { background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; border-left: 5px solid #dc3545; margin-bottom: 20px; font-weight: bold; }
+        button { background: #0056b3; color: white; padding: 14px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
+        .report-section { margin-top: 30px; background: white; padding: 20px; border-radius: 12px; border: 1px solid #e0e0e0; }
+        .disease-block { margin-bottom: 25px; padding: 15px; border-radius: 8px; background: #fafafa; border-left: 6px solid #007bff; }
+        .disease-top { display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+        .grid-box { display: flex; gap: 15px; margin-top: 10px; }
+        .info-panel { flex: 1; padding: 12px; border-radius: 6px; font-size: 13px; }
+        .symptom-panel { background-color: #e2f0d9; border-left: 3px solid #385723; }
+        .precaution-panel { background-color: #fff2cc; border-left: 3px solid #d5a6bd; color: #7f6000; }
+        .disclaimer { margin-top: 40px; font-size: 11px; color: #888; text-align: center; }
+
+        /* MOBILE RESPONSIVE FIXES */
+        @media (max-width: 600px) {
+            .form-row { flex-direction: column; gap: 15px; margin-bottom: 0; }
+            .form-group { margin-bottom: 15px; }
+            .grid-box { flex-direction: column; gap: 10px; }
+            body { margin: 10px auto; padding: 10px; }
+            .disease-top { flex-direction: column; gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center; color: #0056b3; margin-bottom: 30px;">Clinical Health & Risk Assessment Portal</h2>
+
+    {% if error %}
+    <div class="error-alert">
+        ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <form method="POST">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Biological Sex</label>
+                    <select name="sex" required>
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Age Bracket Indicator</label>
+                    <select name="age" required>
+                        <option value="1">Under 25</option>
+                        <option value="4">Age 35-39</option>
+                        <option value="7">Age 50-54</option>
+                        <option value="10">Age 65-69</option>
+                        <option value="13">Age 80 or older</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Systolic Blood Pressure (Top Number)</label>
+                    <input type="number" name="systolic" placeholder="e.g., 120" min="50" max="250" required>
+                </div>
+                <div class="form-group">
+                    <label>Diastolic Blood Pressure (Bottom Number)</label>
+                    <input type="number" name="diastolic" placeholder="e.g., 80" min="30" max="150" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Body Mass Index (BMI)</label>
+                    <input type="number" step="0.1" name="bmi" placeholder="e.g., 24.5" min="10" max="60" required>
+                </div>
+                <div class="form-group">
+                    <label>Fasting Blood Sugar</label>
+                    <select name="high_sugar" required>
+                        <option value="0">Normal (Under 120 mg/dl)</option>
+                        <option value="1">Elevated / High (Over 120 mg/dl)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Smoking Status</label>
+                    <select name="smoker" required>
+                        <option value="0">Never Smoked</option>
+                        <option value="1">Regular / Former Smoker</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Physical Activity</label>
+                    <select name="physactivity" required>
+                        <option value="1">Active (Regular exercise)</option>
+                        <option value="0">Sedentary (Little to no exercise)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button type="submit">Generate Comprehensive Diagnostic Analysis</button>
+        </form>
+    </div>
+
+    {% if results %}
+    <div class="report-section">
+        <h3 style="border-bottom: 2px solid #333; padding-bottom: 10px; color: #333;">Patient Risk Analysis & Diagnostic Report</h3>
+        
+        {% for item in results %}
+        <div class="disease-block" style="border-left-color: {% if loop.first %}#dc3545{% else %}#007bff{% endif %};">
+            <div class="disease-top">
+                <span>Target Assessment: {{ item.disease }}</span>
+                <span style="color: {% if loop.first %}#dc3545{% else %}#007bff{% endif %};">{{ item.probability }}% Score</span>
+            </div>
+
+            <div class="grid-box">
+                <div class="info-panel symptom-panel">
+                    <strong>Watch Out For These Symptoms:</strong>
+                    <ul style="margin: 5px 0 0 0; padding-left: 20px;">
+                        {% for symptom in item.symptoms %}
+                        <li>{{ symptom }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <div class="info-panel precaution-panel">
+                    <strong>Required Preventative Precautions:</strong>
+                    <ul style="margin: 5px 0 0 0; padding-left: 20px;">
+                        {% for precaution in item.precautions %}
+                        <li>{{ precaution }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <p class="disclaimer">Institutional Disclaimer: This portal operates an analytical predictive model utilizing Naive Bayes probability algorithms for academic evaluation. It does not perform physical medical diagnosis.</p>
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+{
+    "target_disease": "Stroke",
+    "priors": {
+        "has_disease": 0.5001222195062331,
+        "no_disease": 0.4998777804937668
+    },
+    "conditionals": {
+        "sex": {
+            "1.0": {
+                "given_has_disease": 0.5,
+                "given_no_disease": 0.6102689486552567
+            },
+            "0.0": {
+                "given_has_disease": 0.5,
+                "given_no_disease": 0.3895843520782396
+            },
+            "nan": {
+                "given_has_disease": 0.0,
+                "given_no_disease": 0.0
+            }
+        },
+        "age": {
+            "63.0": {
+                "given_has_disease": 0.01383186705767351,
+                "given_no_disease": 0.015990220048899755
+            },
+            "42.0": {
+                "given_has_disease": 0.013636363636363636,
+                "given_no_disease": 0.01550122249388753
+            },
+            "61.0": {
+                "given_has_disease": 0.01378299120234604,
+                "given_no_disease": 0.01706601466992665
+            },
+            "41.0": {
+                "given_has_disease": 0.013049853372434018,
+                "given_no_disease": 0.015012224938875305
+            },
+            "85.0": {
+                "given_has_disease": 0.010263929618768328,
+                "given_no_disease": 0.006063569682151589
+            },
+            "55.0": {
+                "given_has_disease": 0.013929618768328446,
+                "given_no_disease": 0.017359413202933986
+            },
+            "82.0": {
+                "given_has_disease": 0.010850439882697948,
+                "given_no_disease": 0.007286063569682152
+            },
+            "17.0": {
+                "given_has_disease": 0.008308895405669599,
+                "given_no_disease": 0.008361858190709047
+            },
+            "31.0": {
+                "given_has_disease": 0.01133919843597263,
+                "given_no_disease": 0.015256723716381418
+            },
+            "39.0": {
+                "given_has_disease": 0.013440860215053764,
+                "given_no_disease": 0.014474327628361858
+            },
+            "26.0": {
+                "given_has_disease": 0.010703812316715543,
+                "given_no_disease": 0.0121760391198044
+            },
+            "19.0": {
+                "given_has_disease": 0.007526881720430108,
+                "given_no_disease": 0.008264058679706601
+            },
+            "78.0": {
+                "given_has_disease": 0.012365591397849462,
+                "given_no_disease": 0.011931540342298288
+            },
+            "45.0": {
+                "given_has_disease": 0.012805474095796677,
+                "given_no_disease": 0.01550122249388753
+            },
+            "50.0": {
+                "given_has_disease": 0.0135386119257087,
+                "given_no_disease": 0.018581907090464547
+            },
+            "53.0": {
+                "given_has_disease": 0.01383186705767351,
+                "given_no_disease": 0.01882640586797066
+            },
+            "71.0": {
+                "given_has_disease": 0.014027370478983382,
+                "given_no_disease": 0.012567237163814181
+            },
+            "64.0": {
+                "given_has_disease": 0.01407624633431085,
+                "given_no_disease": 0.015256723716381418
+            },
+            "75.0": {
+                "given_has_disease": 0.013343108504398828,
+                "given_no_disease": 0.011980440097799512
+            },
+            "67.0": {
+                "given_has_disease": 0.01412512218963832,
+                "given_no_disease": 0.013545232273838631
+            },
+            "40.0": {
+                "given_has_disease": 0.013391984359726295,
+                "given_no_disease": 0.014865525672371638
+            },
+            "23.0": {
+                "given_has_disease": 0.009628543499511241,
+                "given_no_disease": 0.011295843520782396
+            },
+            "33.0": {
+                "given_has_disease": 0.01158357771260997,
+                "given_no_disease": 0.012811735941320294
+            },
+            "65.0": {
+                "given_has_disease": 0.01466275659824047,
+                "given_no_disease": 0.014669926650366748
+            },
+            "83.0": {
+                "given_has_disease": 0.010068426197458456,
+                "given_no_disease": 0.0070904645476772615
+            },
+            "79.0": {
+                "given_has_disease": 0.01192570869990225,
+                "given_no_disease": 0.011540342298288509
+            },
+            "62.0": {
+                "given_has_disease": 0.014418377321603127,
+                "given_no_disease": 0.016723716381418095
+            },
+            "58.0": {
+                "given_has_disease": 0.013685239491691105,
+                "given_no_disease": 0.01823960880195599
+            },
+            "34.0": {
+                "given_has_disease": 0.011485826001955034,
+                "given_no_disease": 0.012860635696821516
+            },
+            "27.0": {
+                "given_has_disease": 0.011143695014662757,
+                "given_no_disease": 0.0121760391198044
+            },
+            "68.0": {
+                "given_has_disease": 0.014565004887585532,
+                "given_no_disease": 0.013643031784841076
+            },
+            "52.0": {
+                "given_has_disease": 0.014271749755620724,
+                "given_no_disease": 0.01687041564792176
+            },
+            "49.0": {
+                "given_has_disease": 0.01407624633431085,
+                "given_no_disease": 0.018190709046454766
+            },
+            "13.0": {
+                "given_has_disease": 0.0061583577712609975,
+                "given_no_disease": 0.004352078239608802
+            },
+            "60.0": {
+                "given_has_disease": 0.013636363636363636,
+                "given_no_disease": 0.018484107579462103
+            },
+            "24.0": {
+                "given_has_disease": 0.009872922776148582,
+                "given_no_disease": 0.010660146699266503
+            },
+            "11.0": {
+                "given_has_disease": 0.005278592375366569,
+                "given_no_disease": 0.0037163814180929096
+            },
+            "47.0": {
+                "given_has_disease": 0.013489736070381233,
+                "given_no_disease": 0.01628361858190709
+            },
+            "70.0": {
+                "given_has_disease": 0.013440860215053764,
+                "given_no_disease": 0.0121760391198044
+            },
+            "38.0": {
+                "given_has_disease": 0.01192570869990225,
+                "given_no_disease": 0.01374083129584352
+            },
+            "59.0": {
+                "given_has_disease": 0.014222873900293255,
+                "given_no_disease": 0.016723716381418095
+            },
+            "36.0": {
+                "given_has_disease": 0.012609970674486803,
+                "given_no_disease": 0.01584352078239609
+            },
+            "77.0": {
+                "given_has_disease": 0.012658846529814272,
+                "given_no_disease": 0.013496332518337407
+            },
+            "54.0": {
+                "given_has_disease": 0.013343108504398828,
+                "given_no_disease": 0.01770171149144254
+            },
+            "93.0": {
+                "given_has_disease": 0.005131964809384164,
+                "given_no_disease": 0.000684596577017115
+            },
+            "29.0": {
+                "given_has_disease": 0.010117302052785923,
+                "given_no_disease": 0.01237163814180929
+            },
+            "51.0": {
+                "given_has_disease": 0.013391984359726295,
+                "given_no_disease": 0.01740831295843521
+            },
+            "21.0": {
+                "given_has_disease": 0.009188660801564028,
+                "given_no_disease": 0.00963325183374083
+            },
+            "56.0": {
+                "given_has_disease": 0.014271749755620724,
+                "given_no_disease": 0.017750611246943767
+            },
+            "20.0": {
+                "given_has_disease": 0.009042033235581623,
+                "given_no_disease": 0.009779951100244499
+            },
+            "46.0": {
+                "given_has_disease": 0.01378299120234604,
+                "given_no_disease": 0.015305623471882641
+            },
+            "72.0": {
+                "given_has_disease": 0.013685239491691105,
+                "given_no_disease": 0.012567237163814181
+            },
+            "37.0": {
+                "given_has_disease": 0.012756598240469208,
+                "given_no_disease": 0.014621026894865526
+            },
+            "18.0": {
+                "given_has_disease": 0.007429130009775171,
+                "given_no_disease": 0.007579462102689487
+            },
+            "66.0": {
+                "given_has_disease": 0.014320625610948191,
+                "given_no_disease": 0.014621026894865526
+            },
+            "25.0": {
+                "given_has_disease": 0.00943304007820137,
+                "given_no_disease": 0.01237163814180929
+            },
+            "57.0": {
+                "given_has_disease": 0.013734115347018573,
+                "given_no_disease": 0.017212713936430316
+            },
+            "16.0": {
+                "given_has_disease": 0.007575757575757576,
+                "given_no_disease": 0.007286063569682152
+            },
+            "80.0": {
+                "given_has_disease": 0.010997067448680353,
+                "given_no_disease": 0.010709046454767727
+            },
+            "28.0": {
+                "given_has_disease": 0.010508308895405669,
+                "given_no_disease": 0.012616136919315403
+            },
+            "84.0": {
+                "given_has_disease": 0.010606060606060607,
+                "given_no_disease": 0.007726161369193154
+            },
+            "44.0": {
+                "given_has_disease": 0.013000977517106549,
+                "given_no_disease": 0.018924205378973106
+            },
+            "43.0": {
+                "given_has_disease": 0.013391984359726295,
+                "given_no_disease": 0.017506112469437653
+            },
+            "76.0": {
+                "given_has_disease": 0.01270772238514174,
+                "given_no_disease": 0.011784841075794621
+            },
+            "48.0": {
+                "given_has_disease": 0.013049853372434018,
+                "given_no_disease": 0.017310513447432764
+            },
+            "8.0": {
+                "given_has_disease": 0.003616813294232649,
+                "given_no_disease": 0.0016625916870415649
+            },
+            "14.0": {
+                "given_has_disease": 0.0062072336265884655,
+                "given_no_disease": 0.0049877750611246946
+            },
+            "88.0": {
+                "given_has_disease": 0.008797653958944282,
+                "given_no_disease": 0.002004889975550122
+            },
+            "69.0": {
+                "given_has_disease": 0.014320625610948191,
+                "given_no_disease": 0.012127139364303178
+            },
+            "22.0": {
+                "given_has_disease": 0.008357771260997068,
+                "given_no_disease": 0.010073349633251833
+            },
+            "15.0": {
+                "given_has_disease": 0.0063049853372434015,
+                "given_no_disease": 0.0053300733496332514
+            },
+            "32.0": {
+                "given_has_disease": 0.010752688172043012,
+                "given_no_disease": 0.013643031784841076
+            },
+            "35.0": {
+                "given_has_disease": 0.011094819159335289,
+                "given_no_disease": 0.013887530562347188
+            },
+            "73.0": {
+                "given_has_disease": 0.012903225806451613,
+                "given_no_disease": 0.012762836185819072
+            },
+            "81.0": {
+                "given_has_disease": 0.011241446725317693,
+                "given_no_disease": 0.009486552567237164
+            },
+            "74.0": {
+                "given_has_disease": 0.01378299120234604,
+                "given_no_disease": 0.011638141809290953
+            },
+            "30.0": {
+                "given_has_disease": 0.01163245356793744,
+                "given_no_disease": 0.013300733496332519
+            },
+            "86.0": {
+                "given_has_disease": 0.00967741935483871,
+                "given_no_disease": 0.00547677261613692
+            },
+            "92.0": {
+                "given_has_disease": 0.006060606060606061,
+                "given_no_disease": 0.0010757946210268948
+            },
+            "5.0": {
+                "given_has_disease": 0.0023949169110459435,
+                "given_no_disease": 0.0007823960880195599
+            },
+            "91.0": {
+                "given_has_disease": 0.006598240469208211,
+                "given_no_disease": 0.00136919315403423
+            },
+            "6.0": {
+                "given_has_disease": 0.003421309872922776,
+                "given_no_disease": 0.0007334963325183374
+            },
+            "87.0": {
+                "given_has_disease": 0.009335288367546431,
+                "given_no_disease": 0.004009779951100244
+            },
+            "7.0": {
+                "given_has_disease": 0.004154447702834799,
+                "given_no_disease": 0.00117359413202934
+            },
+            "9.0": {
+                "given_has_disease": 0.0039100684261974585,
+                "given_no_disease": 0.0022493887530562347
+            },
+            "12.0": {
+                "given_has_disease": 0.005180840664711633,
+                "given_no_disease": 0.003374083129584352
+            },
+            "10.0": {
+                "given_has_disease": 0.005034213098729228,
+                "given_no_disease": 0.002787286063569682
+            },
+            "89.0": {
+                "given_has_disease": 0.008357771260997068,
+                "given_no_disease": 0.0022982885085574573
+            },
+            "90.0": {
+                "given_has_disease": 0.007233626588465298,
+                "given_no_disease": 0.0020537897310513448
+            },
+            "4.0": {
+                "given_has_disease": 0.0026392961876832845,
+                "given_no_disease": 0.0005378973105134474
+            },
+            "1.0": {
+                "given_has_disease": 0.0015640273704789834,
+                "given_no_disease": 0.0
+            },
+            "3.0": {
+                "given_has_disease": 0.002150537634408602,
+                "given_no_disease": 0.00024449877750611245
+            },
+            "-2.0": {
+                "given_has_disease": 0.0007820136852394917,
+                "given_no_disease": 0.0
+            },
+            "-5.0": {
+                "given_has_disease": 0.0002932551319648094,
+                "given_no_disease": 0.0
+            },
+            "-4.0": {
+                "given_has_disease": 0.0003421309872922776,
+                "given_no_disease": 0.0
+            },
+            "-3.0": {
+                "given_has_disease": 0.0005376344086021505,
+                "given_no_disease": 0.0
+            },
+            "-1.0": {
+                "given_has_disease": 0.0007331378299120235,
+                "given_no_disease": 0.0
+            },
+            "2.0": {
+                "given_has_disease": 0.0015640273704789834,
+                "given_no_disease": 0.0
+            },
+            "0.0": {
+                "given_has_disease": 0.0011241446725317693,
+                "given_no_disease": 0.0
+            },
+            "-6.0": {
+                "given_has_disease": 9.775171065493646e-05,
+                "given_no_disease": 0.0
+            },
+            "-9.0": {
+                "given_has_disease": 4.887585532746823e-05,
+                "given_no_disease": 0.0
+            },
+            "95.0": {
+                "given_has_disease": 0.004154447702834799,
+                "given_no_disease": 0.0
+            },
+            "103.0": {
+                "given_has_disease": 4.887585532746823e-05,
+                "given_no_disease": 0.0
+            },
+            "94.0": {
+                "given_has_disease": 0.004594330400782014,
+                "given_no_disease": 0.0
+            },
+            "98.0": {
+                "given_has_disease": 0.001906158357771261,
+                "given_no_disease": 0.0
+            },
+            "96.0": {
+                "given_has_disease": 0.003372434017595308,
+                "given_no_disease": 0.0
+            },
+            "102.0": {
+                "given_has_disease": 0.0003421309872922776,
+                "given_no_disease": 0.0
+            },
+            "101.0": {
+                "given_has_disease": 0.0002932551319648094,
+                "given_no_disease": 0.0
+            },
+            "97.0": {
+                "given_has_disease": 0.0023949169110459435,
+                "given_no_disease": 0.0
+            },
+            "99.0": {
+                "given_has_disease": 0.0015151515151515152,
+                "given_no_disease": 0.0
+            },
+            "100.0": {
+                "given_has_disease": 0.0006842619745845552,
+                "given_no_disease": 0.0
+            }
+        }
+    }
+}

@@ -1,0 +1,73 @@
+{
+    "target_disease": "Diabetes",
+    "priors": {
+        "has_disease": 0.5,
+        "no_disease": 0.5
+    },
+    "conditionals": {
+        "sex": {
+            "1.0": {
+                "given_has_disease": 0.4791206925819046,
+                "given_no_disease": 0.434872404232445
+            },
+            "0.0": {
+                "given_has_disease": 0.5208793074180954,
+                "given_no_disease": 0.565127595767555
+            }
+        },
+        "age": {
+            "4.0": {
+                "given_has_disease": 0.017710632037571436,
+                "given_no_disease": 0.06130821026424489
+            },
+            "12.0": {
+                "given_has_disease": 0.09627680642788435,
+                "given_no_disease": 0.056328863237707236
+            },
+            "13.0": {
+                "given_has_disease": 0.09078820800090534,
+                "given_no_disease": 0.06272279748769309
+            },
+            "11.0": {
+                "given_has_disease": 0.1454478583149437,
+                "given_no_disease": 0.08213093419340237
+            },
+            "8.0": {
+                "given_has_disease": 0.12060770667119335,
+                "given_no_disease": 0.12278617099530358
+            },
+            "1.0": {
+                "given_has_disease": 0.0022067560685791886,
+                "given_no_disease": 0.025490861766536525
+            },
+            "6.0": {
+                "given_has_disease": 0.04928421886493521,
+                "given_no_disease": 0.08221580942680926
+            },
+            "3.0": {
+                "given_has_disease": 0.008883607763254682,
+                "given_no_disease": 0.04908617665365246
+            },
+            "7.0": {
+                "given_has_disease": 0.0873649069201607,
+                "given_no_disease": 0.1070559610705596
+            },
+            "10.0": {
+                "given_has_disease": 0.18553726022746564,
+                "given_no_disease": 0.12159791772760709
+            },
+            "9.0": {
+                "given_has_disease": 0.16219657104057036,
+                "given_no_disease": 0.12388954902959316
+            },
+            "5.0": {
+                "given_has_disease": 0.02973462343688112,
+                "given_no_disease": 0.069852317093872
+            },
+            "2.0": {
+                "given_has_disease": 0.003960844225654954,
+                "given_no_disease": 0.03553443105301873
+            }
+        }
+    }
+}
