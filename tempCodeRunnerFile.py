@@ -67,7 +67,6 @@ def calculate_naive_bayes(user_inputs):
     for disease, filename in files.items():
         filepath = os.path.join(DATASET_DIR, filename)
         if not os.path.exists(filepath): 
-            print(f"DEBUG ERROR: File missing: {filepath}")
             continue
             
         with open(filepath, 'r') as f:
@@ -79,40 +78,15 @@ def calculate_naive_bayes(user_inputs):
         p_features_given_has = prior_has
         p_features_given_no = prior_no
         
-        # Keep track if we actually matched ANY features
-        matched_any_features = False
-        
         for feature_name, user_value in user_inputs.items():
             if feature_name in model['conditionals']:
                 feature_rules = model['conditionals'][feature_name]
-                
-                # Check for possible formatting variations in your JSON keys
-                val_str = str(user_value)          # "1"
-                val_float_str = f"{float(user_value):.1f}" if user_value is not None and user_value.replace('.','',1).isdigit() else "" # "1.0"
-                
-                matched_key = None
-                if val_str in feature_rules:
-                    matched_key = val_str
-                elif val_float_str in feature_rules:
-                    matched_key = val_float_str
-                elif str(int(float(user_value))) in feature_rules: # fallback to int string
-                    matched_key = str(int(float(user_value)))
-
-                if matched_key:
-                    p_features_given_has *= feature_rules[matched_key]['given_has_disease']
-                    p_features_given_no *= feature_rules[matched_key]['given_no_disease']
-                    matched_any_features = True
-                else:
-                    # Print to terminal so you can see exactly what key it failed to find
-                    print(f"DEBUG: Missing key matching for {disease} -> Feature: '{feature_name}', Value: '{user_value}'")
+                if str(user_value) in feature_rules:
+                    p_features_given_has *= feature_rules[str(user_value)]['given_has_disease']
+                    p_features_given_no *= feature_rules[str(user_value)]['given_no_disease']
         
-        # Compute final probabilities
         total_evidence = p_features_given_has + p_features_given_no
-        if total_evidence > 0 and matched_any_features:
-            final_probability = (p_features_given_has / total_evidence) * 100
-        else:
-            # Fallback if no matching variables were processed
-            final_probability = (prior_has / (prior_has + prior_no)) * 100 if (prior_has + prior_no) > 0 else 0.0
+        final_probability = (p_features_given_has / total_evidence) * 100 if total_evidence > 0 else 0.0
             
         results.append({
             'disease': disease,
