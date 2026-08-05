@@ -1,478 +1,1385 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Diagnostics Web Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Clinical Decision Support Portal | UK Digital Healthcare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
-            --bg-matrix: radial-gradient(circle at 50% 50%, #0d1527 0%, #050811 100%);
-            --panel-glass: rgba(13, 22, 41, 0.7);
-            --neon-blue: #00f3ff;
-            --neon-pink: #ff007f;
-            --neon-purple: #9d00ff;
-            --neon-green: #39ff14;
-            --text-main: #e2e8f0;
-            --border-glass: rgba(0, 243, 255, 0.15);
+            --bg-body: #0a192f;
+            --surface-dark: #0f2744;
+            --surface-card: #132f52;
+            --surface-input: #1a3c66;
+            --border-glow: #1e4976;
+            --border-highlight: #38bdf8;
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            
+            --nhs-blue: #005eb8;
+            --nhs-blue-dark: #003087;
+            --nhs-teal: #00a499;
+            --nhs-cyan: #38bdf8;
+            
+            --status-success: #22c55e;
+            --status-success-bg: rgba(34, 197, 94, 0.12);
+            --status-success-border: #4ade80;
+            
+            --status-warning: #38bdf8;
+            --status-warning-bg: rgba(56, 189, 248, 0.12);
+            --status-warning-border: #7dd3fc;
+            
+            --status-danger: #ef4444;
+            --status-danger-bg: rgba(239, 68, 68, 0.15);
+            --status-danger-border: #fca5a5;
+            
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.4);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Rajdhani', sans-serif;
         }
 
         body {
-            background: var(--bg-matrix);
-            color: var(--text-main);
-            max-width: 950px;
-            margin: 0 auto;
-            padding: 30px 20px;
-            line-height: 1.6;
-            position: relative;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
             min-height: 100vh;
-        }
-
-        body::before {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: var(--neon-blue);
-            filter: blur(200px);
-            opacity: 0.08;
-            top: 5%;
-            left: 10%;
-            pointer-events: none;
-        }
-
-        .portal-title {
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            color: #fff;
-            margin-bottom: 35px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
-        }
-
-        .error-alert {
-            background-color: rgba(220, 53, 69, 0.15);
-            color: #ff6b6b;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(220, 53, 69, 0.4);
-            border-left: 5px solid #dc3545;
-            margin-bottom: 25px;
-            font-weight: bold;
-        }
-
-        .card {
-            background: var(--panel-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-glass);
-            padding: 35px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 243, 255, 0.03);
-        }
-
-        .form-row {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        label {
-            margin-bottom: 8px;
-            font-weight: 700;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--neon-blue);
-        }
-
-        select, input {
-            padding: 14px;
-            border-radius: 8px;
-            background: rgba(5, 8, 17, 0.85);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            color: #fff;
-            font-size: 15px;
-            box-sizing: border-box;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-            background: rgba(13, 22, 41, 0.95);
-        }
-
-        button {
-            background: transparent;
-            color: var(--neon-blue);
-            padding: 16px;
-            border: 2px solid var(--neon-blue);
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            transition: all 0.4s ease;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background: var(--neon-blue);
-            color: #050811;
-            box-shadow: 0 0 25px rgba(0, 243, 255, 0.5);
-        }
-
-        .report-section {
-            margin-top: 35px;
-            background: var(--panel-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-glass);
-            padding: 30px;
-            border-radius: 16px;
-        }
-
-        .section-header {
-            font-family: 'Orbitron', sans-serif;
-            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-            color: #fff;
-            letter-spacing: 1px;
-        }
-
-        .download-banner {
-            background: rgba(0, 243, 255, 0.05);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            border-radius: 10px;
-            padding: 20px;
+        /* Header Navigation */
+        .nhs-header {
+            background: linear-gradient(135deg, var(--nhs-blue) 0%, var(--nhs-blue-dark) 100%);
+            color: #ffffff;
+            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            box-shadow: var(--shadow-md);
+            border-bottom: 4px solid var(--nhs-teal);
         }
 
-        .btn-download {
-            background: transparent;
-            color: var(--neon-green);
-            border: 1px solid var(--neon-green);
-            padding: 12px 22px;
-            text-decoration: none;
-            border-radius: 6px;
-            font-family: 'Orbitron', sans-serif;
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+        }
+
+        .header-brand svg {
+            width: 32px;
+            height: 32px;
+            fill: #ffffff;
+        }
+
+        .status-badge {
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 6px 16px;
+            border-radius: 20px;
             font-weight: 700;
-            font-size: 13px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
+            font-size: 0.8rem;
         }
 
-        .btn-download:hover {
-            background: var(--neon-green);
-            color: #050811;
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+        /* Hero Banner Section */
+        .hero-banner {
+            background: linear-gradient(135deg, #031b38 0%, #003087 50%, #005eb8 100%);
+            color: #ffffff;
+            padding: 44px 40px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow-md);
+            border-bottom: 1px solid var(--border-glow);
         }
 
-        .disease-block {
-            margin-bottom: 25px;
-            padding: 20px;
+        .hero-container {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 14px;
+            color: #ffffff;
+        }
+
+        .hero-text p {
+            font-size: 1.025rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .hero-illustration svg {
+            width: 100%;
+            max-width: 300px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        @media (max-width: 868px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-illustration { display: none; }
+            .hero-banner { padding: 32px 20px; }
+        }
+
+        .container {
+            max-width: 1120px;
+            width: 100%;
+            margin: 0 auto 40px auto;
+            padding: 0 24px;
+            flex: 1;
+        }
+
+        .error-alert {
+            background-color: var(--status-danger-bg);
+            color: var(--status-danger);
+            padding: 16px 20px;
             border-radius: 10px;
-            background: rgba(5, 8, 17, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--status-danger-border);
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
-        .disease-top {
+        /* Screen State Controller */
+        .page-screen {
+            display: none;
+            width: 100%;
+        }
+
+        .page-screen.active-screen {
+            display: block;
+        }
+
+        /* Center Landing CTA Section */
+        .landing-cta-box {
+            text-align: center;
+            background: linear-gradient(145deg, #0d223d 0%, #13335c 100%);
+            border: 2px solid var(--border-highlight);
+            border-radius: 20px;
+            padding: 40px 28px;
+            margin: 36px 0;
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15);
+        }
+
+        .landing-cta-box h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .landing-cta-box p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .btn-launch-primary {
+            background: linear-gradient(135deg, #005eb8 0%, #00a499 100%);
+            color: #ffffff;
+            padding: 18px 36px;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 20px rgba(0, 164, 153, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-launch-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 26px rgba(0, 164, 153, 0.55);
+        }
+
+        /* About Portal Cards */
+        .portal-about-card {
+            background: linear-gradient(145deg, #0b1f3a 0%, #102a4d 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            padding: 32px;
+            margin-bottom: 28px;
+        }
+
+        .section-header-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .portal-about-text {
+            color: var(--text-secondary);
+            font-size: 0.975rem;
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        .target-disease-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .target-disease-grid { grid-template-columns: 1fr; }
+        }
+
+        .disease-scope-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-glow);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .disease-scope-box h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--nhs-cyan);
+            margin-bottom: 8px;
+        }
+
+        .disease-scope-box p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Plain-English Dynamic Summary Banner */
+        .overall-summary-card {
+            background: linear-gradient(145deg, #112c4e 0%, #183d6b 100%);
+            border: 2px solid var(--nhs-cyan);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .overall-summary-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .overall-summary-body {
+            font-size: 0.975rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* Dedicated Form Screen Styling */
+        .form-top-bar {
             display: flex;
             justify-content: space-between;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 15px;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-glow);
         }
 
-        .grid-box {
+        .card-dark-form {
+            background: linear-gradient(145deg, #0b1f3a 0%, #102a4d 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 36px;
+        }
+
+        .card-header-dark {
+            background: linear-gradient(135deg, #003087 0%, #005eb8 100%);
+            padding: 24px 36px;
             display: flex;
-            gap: 20px;
-            margin-top: 10px;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-glow);
         }
 
-        .info-panel {
-            flex: 1;
-            padding: 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            background: rgba(5, 8, 17, 0.9);
+        .card-title-dark {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
-        .symptom-panel { border-left: 4px solid var(--neon-pink); }
-        .symptom-panel strong { color: var(--neon-pink); }
-        .precaution-panel { border-left: 4px solid var(--neon-blue); }
-        .precaution-panel strong { color: var(--neon-blue); }
-        
-        .info-panel ul { margin-top: 8px; padding-left: 18px; }
-        .info-panel li { margin-bottom: 4px; color: #cbd5e1; }
+        .card-body-dark { padding: 38px; }
 
-        /* Metrics grid panel */
-        .metrics-grid {
+        .form-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
         }
-        .metric-card {
-            background: rgba(5, 8, 17, 0.7);
-            border: 1px solid rgba(157, 0, 255, 0.2);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .metric-val {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: var(--neon-purple);
-            font-weight: bold;
-        }
-        .metric-lbl { font-size: 12px; text-transform: uppercase; color: #94a3b8; }
 
-        .history-table {
+        .form-grid.full-width { grid-template-columns: 1fr; }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .card-body-dark { padding: 24px; }
+            .container { padding: 0 16px; }
+            .nhs-header { padding: 14px 20px; }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .label-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--nhs-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .info-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.2);
+            color: var(--nhs-cyan);
+            font-size: 11px;
+            font-weight: 800;
+            font-family: serif;
+            cursor: pointer;
+            border: 1px solid var(--nhs-cyan);
+            line-height: 1;
+        }
+
+        select, input, textarea {
+            padding: 14px 18px;
+            border-radius: 10px;
+            background: var(--surface-input);
+            border: 1.5px solid var(--border-glow);
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        select option {
+            background-color: #0b1f3a;
+            color: #ffffff;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            background: #1e4575;
+            border-color: var(--nhs-cyan);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+        }
+
+        .bmi-category-badge {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        button.btn-submit {
+            background: linear-gradient(135deg, #005eb8 0%, #00a499 100%);
+            color: #ffffff;
+            padding: 18px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+            box-shadow: 0 4px 16px rgba(0, 164, 153, 0.4);
+        }
+
+        .btn-action-outline {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 2px solid var(--nhs-cyan);
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-action-outline:hover {
+            background: var(--nhs-cyan);
+            color: #0b1f3a;
+        }
+
+        /* Report Output Interface */
+        .download-banner-dark {
+            background: linear-gradient(135deg, #102a4d 0%, #1e4575 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 14px;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .btn-download-highlight {
+            background: linear-gradient(135deg, var(--nhs-teal) 0%, #0284c7 100%);
+            color: #ffffff;
+            padding: 12px 26px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .report-card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .disease-report-card {
+            background: linear-gradient(145deg, #0e2440 0%, #143358 100%);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1.5px solid var(--border-glow);
+            box-shadow: var(--shadow-md);
+        }
+
+        .disease-report-card.high-risk {
+            border-color: var(--status-danger);
+            background: linear-gradient(145deg, #1c1018 0%, #2b111a 100%);
+        }
+
+        .disease-report-card.medium-risk {
+            border-color: var(--status-warning);
+            background: linear-gradient(145deg, #0f2338 0%, #132f4c 100%);
+        }
+
+        .disease-report-card.low-risk {
+            border-color: var(--status-success);
+            background: linear-gradient(145deg, #0c2419 0%, #103323 100%);
+        }
+
+        .report-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .disease-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .risk-badge-large {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
+        .risk-high-badge { background: var(--status-danger-bg); color: var(--status-danger); border: 1.5px solid var(--status-danger-border); }
+        .risk-med-badge { background: var(--status-warning-bg); color: var(--status-warning); border: 1.5px solid var(--status-warning-border); }
+        .risk-low-badge { background: var(--status-success-bg); color: var(--status-success); border: 1.5px solid var(--status-success-border); }
+
+        .progress-bar-bg-dark {
+            height: 12px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill-dark { height: 100%; border-radius: 6px; }
+        .fill-high { background-color: var(--status-danger); }
+        .fill-medium { background-color: var(--nhs-cyan); }
+        .fill-low { background-color: var(--status-success); }
+
+        .grid-box-dark {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) { .grid-box-dark { grid-template-columns: 1fr; } }
+
+        .info-panel-dark {
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-glow);
+        }
+
+        .symptom-panel-dark strong { color: #f87171; }
+        .precaution-panel-dark strong { color: var(--nhs-cyan); }
+        .info-panel-dark ul { margin-top: 10px; padding-left: 20px; }
+        .info-panel-dark li { margin-bottom: 6px; color: var(--text-secondary); }
+
+        .history-table-dark {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 14px;
+            margin-top: 16px;
+            font-size: 0.9rem;
         }
 
-        .history-table th {
-            background: rgba(0, 243, 255, 0.05);
-            color: var(--neon-blue);
-            text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
-            padding: 12px;
-            border-bottom: 2px solid rgba(0, 243, 255, 0.3);
+        .history-table-dark th {
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--nhs-cyan);
+            font-weight: 700;
+            padding: 14px;
+            border-bottom: 2px solid var(--border-glow);
             text-align: left;
         }
 
-        .history-table td { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-
-        .disclaimer {
-            margin-top: 50px;
-            font-size: 12px;
-            color: #64748b;
-            text-align: center;
+        .history-table-dark td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border-glow);
+            color: var(--text-secondary);
         }
 
-        @media (max-width: 600px) {
-            .form-row { flex-direction: column; gap: 0; }
-            .form-group { margin-bottom: 20px; }
-            .grid-box, .metrics-grid { grid-template-columns: 1fr; flex-direction: column; }
-            body { padding: 15px 10px; }
+        /* FAQ Styling */
+        .faq-section {
+            margin-top: 52px;
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            background: linear-gradient(145deg, #0f2744 0%, #132f52 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px 26px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 26px 22px 26px;
+            font-size: 0.925rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Feedback Section */
+        .feedback-section {
+            background: linear-gradient(145deg, #0c1d33 0%, #112845 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 36px;
+        }
+
+        .feedback-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .nhs-footer {
+            background: #040e1a;
+            color: #ffffff;
+            padding: 48px 40px 28px 40px;
+            margin-top: 60px;
+            border-top: 4px solid var(--nhs-teal);
+        }
+
+        .footer-grid {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .nhs-footer { padding: 36px 20px 20px 20px; }
+        }
+
+        .footer-col h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .footer-col p, .footer-col li {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            list-style: none;
+            margin-bottom: 8px;
+        }
+
+        .footer-bottom {
+            max-width: 1120px;
+            margin: 24px auto 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        /* Modal Box */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 25, 47, 0.8);
+            backdrop-filter: blur(6px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: #0f2744;
+            border-radius: 16px;
+            padding: 36px;
+            max-width: 520px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-glow);
+        }
+
+        .modal-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--nhs-cyan);
+            margin-bottom: 16px;
+        }
+
+        .modal-body {
+            font-size: 0.925rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            margin-top: 24px;
+            background: var(--nhs-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            float: right;
+        }
+
+        /* Loader Overlay */
+        .loader-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-card {
+            background: #0f2744;
+            border: 1px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 44px 56px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--nhs-cyan);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 24px auto;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .calc-progress-bg {
+            height: 8px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 24px;
+            overflow: hidden;
+        }
+
+        .calc-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--nhs-cyan);
+            transition: width 0.3s ease;
+        }
+
+        /* Print CSS for PDF Downloads */
+        @media print {
+            body { background-color: #0a192f !important; color: #ffffff !important; }
+            .hero-banner, .faq-section, .feedback-section, .nhs-footer, .btn-action-outline, .download-banner-dark, .form-top-bar {
+                display: none !important;
+            }
+            .container { max-width: 100% !important; padding: 0 !important; }
         }
     </style>
 </head>
 <body>
 
-    <h2 class="portal-title">Clinical Health & Risk Assessment Portal</h2>
-
-    <div class="report-section" style="margin-bottom: 25px; margin-top: 0;">
-        <h3 class="section-header" style="color: var(--neon-purple); font-size: 14px;">Classification Performance Evaluation</h3>
-        <div class="metrics-grid">
-            <div class="metric-card"><div class="metric-val">{{ metrics.accuracy }}%</div><div class="metric-lbl">Accuracy</div></div>
-            <div class="metric-card"><div class="metric-val">{{ metrics.precision }}%</div><div class="metric-lbl">Precision</div></div>
-            <div class="metric-card"><div class="metric-val">{{ metrics.recall }}%</div><div class="metric-lbl">Recall</div></div>
-            <div class="metric-card"><div class="metric-val">{{ metrics.f1_score }}%</div><div class="metric-lbl">F1-Measure</div></div>
+    <!-- Loading Overlay for State Transitions -->
+    <div class="loader-overlay" id="loadingOverlay">
+        <div class="loader-card">
+            <div class="spinner"></div>
+            <h3 id="loaderHeading" style="font-family: 'Plus Jakarta Sans'; font-size: 1.2rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;">Accessing Intake Portal</h3>
+            <p id="loaderStatusText" style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Opening clinical assessment environment...</p>
+            <div class="calc-progress-bg">
+                <div class="calc-progress-fill" id="loaderBarFill"></div>
+            </div>
         </div>
     </div>
 
-    {% if error %}
-    <div class="error-alert">⚠️ {{ error }}</div>
-    {% endif %}
-
-    <div class="card">
-        <form method="POST">
-            <div class="form-row">
-                <div class="form-group" style="flex: 2;">
-                    <label>Patient Full Name</label>
-                    <input type="text" name="name" placeholder="e.g., Kritarth Devli" value="{{ name if name else '' }}" required>
-                </div>
-                <div class="form-group" style="flex: 1;">
-                    <label>Exact Age</label>
-                    <input type="number" name="age" placeholder="e.g., 21" min="1" max="120" required>
-                </div>
+    <!-- BMI Guidance Popup Modal -->
+    <div class="modal-overlay" id="bmiModal">
+        <div class="modal-card">
+            <h3 class="modal-title">Body Mass Index (BMI) Guidance</h3>
+            <div class="modal-body">
+                <p><strong>Body Mass Index (BMI)</strong> is an established clinical metric used to estimate total body fat relative to individual height.</p>
+                <br>
+                <p><strong>Standard Calculation Formula:</strong></p>
+                <p style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; margin: 10px 0; border: 1px solid var(--border-glow);">
+                    BMI = Weight (kg) / [Height (m)]²
+                </p>
+                <br>
+                <p><strong>Clinical Reference Ranges:</strong></p>
+                <ul style="padding-left: 20px;">
+                    <li>Underweight: &lt; 18.5</li>
+                    <li>Normal Weight: 18.5 – 24.9</li>
+                    <li>Overweight: 25.0 – 29.9</li>
+                    <li>Obesity Class Target: ≥ 30.0</li>
+                </ul>
             </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Biological Sex</label>
-                    <select name="sex" required>
-                        <option value="1">Male</option>
-                        <option value="0">Female</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Fasting Blood Sugar</label>
-                    <select name="high_sugar" required>
-                        <option value="0">Normal (Under 120 mg/dl)</option>
-                        <option value="1">Elevated / High (Over 120 mg/dl)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Systolic Blood Pressure</label>
-                    <input type="number" name="systolic" placeholder="e.g., 120" min="50" max="250" required>
-                </div>
-                <div class="form-group">
-                    <label>Diastolic Blood Pressure</label>
-                    <input type="number" name="diastolic" placeholder="e.g., 80" min="30" max="150" required>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Body Mass Index (BMI)</label>
-                    <input type="number" step="0.1" name="bmi" placeholder="e.g., 24.5" min="10" max="60" required>
-                </div>
-                <div class="form-group">
-                    <label>Smoking Status</label>
-                    <select name="smoker" required>
-                        <option value="0">Never Smoked</option>
-                        <option value="1">Regular / Former Smoker</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Sleep Node (Hours/Night)</label>
-                    <input type="number" step="0.5" name="sleep_hours" placeholder="e.g., 7.5" value="7.0">
-                </div>
-                <div class="form-group">
-                    <label>Resting Heart Rate (BPM)</label>
-                    <input type="number" name="resting_hr" placeholder="e.g., 68" value="72">
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Physical Activity</label>
-                    <select name="physactivity" required>
-                        <option value="1">Active (Regular exercise)</option>
-                        <option value="0">Sedentary (Little to no exercise)</option>
-                    </select>
-                </div>
-            </div>
-            
-            <button type="submit">Generate Comprehensive Diagnostic Analysis</button>
-        </form>
+            <button class="modal-close" onclick="closeBmiModal()">Close Guidance</button>
+        </div>
     </div>
 
-    {% if results %}
-    <div class="report-section">
-        {% if scan_id %}
-        <div class="download-banner">
-            <div>
-                <p style="margin: 0; font-weight: bold; color: var(--neon-blue); font-family: 'Orbitron', sans-serif;">Diagnostic Report Generated Successfully</p>
-                <p style="margin: 5px 0 0 0; font-size: 13px; color: #94a3b8;">You can download a clean offline copy of this assessment directly to your device.</p>
-            </div>
-            <a href="/download/{{ scan_id }}" class="btn-download">Download PDF Report</a>
+    <!-- MAIN NAVBAR (Hidden during intake form view) -->
+    <header class="nhs-header" id="mainHeaderNav">
+        <div class="header-brand" onclick="navigateToHub()">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+            Clinical Decision Support Portal
         </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <button class="btn-action-outline" onclick="navigateToHub()">Dashboard Main Screen</button>
+            <span class="status-badge">System Status: Active</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+        {% if error %}
+        <div class="error-alert" style="margin-top: 20px;">⚠️ {{ error }}</div>
         {% endif %}
 
-        <h3 class="section-header">Patient Risk Analysis & Diagnostic Report for {{ name }}</h3>
-        
-        {% for item in results %}
-        <div class="disease-block" style="border-top: 2px solid {% if loop.first %}var(--neon-pink){% else %}var(--neon-blue){% endif %};">
-            <div class="disease-top">
-                <span style="color: #fff;">Target Assessment: {{ item.disease }}</span>
-                <span style="color: {% if loop.first %}var(--neon-pink){% else %}var(--neon-blue){% endif %};">{{ item.probability }}% Score</span>
-            </div>
-
-            <div class="grid-box">
-                <div class="info-panel symptom-panel">
-                    <strong>Watch Out For These Symptoms:</strong>
-                    <ul>
-                        {% for symptom in item.symptoms %}
-                        <li>{{ symptom }}</li>
-                        {% endfor %}
-                    </ul>
+        <!-- SCREEN 1: LANDING HUB (Default View) -->
+        <div class="page-screen {% if not results %}active-screen{% endif %}" id="hubScreen">
+            <!-- Hero Banner -->
+            <section class="hero-banner">
+                <div class="hero-container">
+                    <div class="hero-text">
+                        <h1>Multi-Condition Disease Risk Analytics Platform</h1>
+                        <p>Providing clinical practitioners and individuals with algorithmic probabilistic scoring for early diagnostic evaluation across Diabetes, Hypertension, and Stroke risk profiles.</p>
+                    </div>
+                    <div class="hero-illustration">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="80" fill="rgba(56, 189, 248, 0.15)" />
+                            <rect x="65" y="55" width="70" height="90" rx="8" fill="#132f52" stroke="#38bdf8" stroke-width="2" />
+                            <path d="M80 80h40M80 95h40M80 110h25" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" />
+                            <circle cx="130" cy="130" r="26" fill="#00a499" />
+                            <path d="M122 130l5 5 10-10" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        </svg>
+                    </div>
                 </div>
+            </section>
+
+            <!-- 1. PORTAL PURPOSE & ELIGIBILITY OVERVIEW (PLACED ABOVE CTA) -->
+            <section class="portal-about-card">
+                <div class="section-header-title">
+                    <span>🩺 What Is This Portal & Who Should Use It?</span>
+                </div>
+                <p class="portal-about-text">
+                    This portal is an early-stage clinical screening tool designed for <strong>general practitioners, healthcare workers, and individual patients</strong> who wish to assess their baseline statistical probability for metabolic and cardiovascular conditions. By inputting non-invasive biometric markers—such as blood pressure readings, fasting glucose levels, BMI, and lifestyle habits—the portal generates real-time probabilistic risk scores.
+                </p>
+
+                <h4 style="font-family: 'Plus Jakarta Sans'; font-size: 0.95rem; color: var(--nhs-cyan); font-weight: 800; text-transform: uppercase; margin-bottom: 16px;">Conditions Evaluated By This Portal:</h4>
                 
-                <div class="info-panel precaution-panel">
-                    <strong>Required Preventative Precautions:</strong>
-                    <ul>
-                        {% for precaution in item.precautions %}
-                        <li>{{ precaution }}</li>
-                        {% endfor %}
-                    </ul>
+                <div class="target-disease-grid">
+                    <div class="disease-scope-box">
+                        <h4>Hypertension Risk</h4>
+                        <p>Evaluates systolic and diastolic arterial pressures combined with age and lifestyle to highlight potential stage 1 or stage 2 essential hypertension.</p>
+                    </div>
+
+                    <div class="disease-scope-box">
+                        <h4>Diabetes Mellitus</h4>
+                        <p>Analyzes fasting blood glucose indicators, body mass index, and physical activity levels to estimate Type-2 diabetes predisposition.</p>
+                    </div>
+
+                    <div class="disease-scope-box">
+                        <h4>Stroke & Vascular Risk</h4>
+                        <p>Integrates blood pressure metrics, heart rate patterns, age, and tobacco usage to compute cerebrovascular event probability.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. CENTER LAUNCH ACTION BOX (PLACED BELOW ABOUT PORTAL) -->
+            <div class="landing-cta-box">
+                <h3>Ready to Evaluate Baseline Clinical Health Metrics?</h3>
+                <p>If you are someone looking to test physiological markers and generate a condition diagnostic report, begin here.</p>
+                <button class="btn-launch-primary" onclick="launchIntakePortalSequence()">
+                    <span>Enter Your Details & Generate Your Report</span>
+                    <span style="font-size: 1.2rem;">→</span>
+                </button>
+            </div>
+
+            <!-- Frequently Asked Questions -->
+            <section class="faq-section">
+                <h3 style="font-family: 'Plus Jakarta Sans'; font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-bottom: 20px;">Frequently Asked Questions</h3>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>How are disease probabilities calculated?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Calculations utilize Naive Bayes probabilistic models trained on epidemiological health indicators, evaluating systolic/diastolic blood pressure, fasting blood sugar, BMI, and lifestyle metrics.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Who is this portal meant for?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        This portal is designed for individuals seeking early preventative assessment and medical practitioners looking for preliminary decision support regarding hypertension, stroke, and diabetes risk factors.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>How accurate are the risk percentages shown?</span>
+                        <span>▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        The risk percentages serve as decision-support estimations to highlight elevated risk factors for practitioner review. They should be evaluated alongside standard clinical diagnostic procedures.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Support Inquiry Form -->
+            <section class="feedback-section">
+                <h4 class="feedback-title">Have a Question or Support Inquiry?</h4>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 18px;">Submit your comments, questions, or clinical inquiries directly to the technical team.</p>
+                
+                <form id="feedbackForm" onsubmit="handleFeedbackSubmit(event)">
+                    <div class="form-grid" style="margin-bottom: 16px;">
+                        <input type="text" id="feedbackName" placeholder="Your Name or Clinician ID" required>
+                        <input type="email" id="feedbackEmail" placeholder="Your Contact Email" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 16px;">
+                        <textarea id="feedbackMsg" rows="3" placeholder="Type your message or inquiry here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-action-outline" style="background: var(--nhs-blue); border: none;">Submit Message</button>
+                </form>
+                <div id="feedbackSuccess" style="display:none; color: var(--status-success); font-weight: 700; margin-top: 14px; font-size: 0.9rem;">
+                    ✓ Thank you! Your inquiry has been submitted to the support team.
+                </div>
+            </section>
+        </div>
+
+        <!-- SCREEN 2: CLEAN DEDICATED FORM SCREEN (No Header Nav, FAQs, or Footers) -->
+        <div class="page-screen" id="formScreen" style="padding-top: 30px;">
+            <div class="form-top-bar">
+                <button class="btn-action-outline" onclick="navigateToHub()">← Return to Main Hub</button>
+                <span style="font-family: 'Plus Jakarta Sans'; font-weight: 800; color: var(--nhs-cyan); font-size: 0.9rem;">Patient Intake Portal Mode</span>
+            </div>
+
+            <div class="card-dark-form">
+                <div class="card-header-dark">
+                    <h3 class="card-title-dark">Patient Intake & Physiological Profile</h3>
+                </div>
+                <div class="card-body-dark">
+                    <form method="POST" id="intakeForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Patient Full Name</label>
+                                <input type="text" name="name" placeholder="e.g. John Doe" value="{{ name if name else '' }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Age (Years)</label>
+                                <input type="number" name="age" placeholder="e.g. 45" min="1" max="120" required>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Biological Sex</label>
+                                <select name="sex" required>
+                                    <option value="1">Male</option>
+                                    <option value="0">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Fasting Blood Sugar</label>
+                                <select name="high_sugar" required>
+                                    <option value="0">Normal (&lt; 120 mg/dL)</option>
+                                    <option value="1">Elevated (≥ 120 mg/dL)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Systolic Blood Pressure (mmHg)</label>
+                                <input type="number" name="systolic" placeholder="e.g. 120" min="50" max="250" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Diastolic Blood Pressure (mmHg)</label>
+                                <input type="number" name="diastolic" placeholder="e.g. 80" min="30" max="150" required>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <div class="label-wrapper">
+                                    <label>Body Mass Index (BMI)</label>
+                                    <button type="button" class="info-btn" onclick="openBmiModal()" title="View BMI info">i</button>
+                                </div>
+                                <input type="number" step="0.1" id="bmiInput" name="bmi" placeholder="e.g. 24.5" min="10" max="60" oninput="updateBmiBadge()" required>
+                                <span class="bmi-category-badge" id="bmiBadge">Category: Enter value</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Tobacco Use</label>
+                                <select name="smoker" required>
+                                    <option value="0">Non-Smoker</option>
+                                    <option value="1">Current / Active Smoker</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Sleep Average (Hours/Night)</label>
+                                <input type="number" step="0.5" name="sleep_hours" placeholder="e.g. 7.5" value="7.0">
+                            </div>
+                            <div class="form-group">
+                                <label>Resting Heart Rate (BPM)</label>
+                                <input type="number" name="resting_hr" placeholder="e.g. 72" value="72">
+                            </div>
+                        </div>
+
+                        <div class="form-grid full-width">
+                            <div class="form-group">
+                                <label>Physical Activity Profile</label>
+                                <select name="physactivity" required>
+                                    <option value="1">Physically Active (Regular Exercise)</option>
+                                    <option value="0">Sedentary (Minimal Activity)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn-submit" onclick="startCalculationsAndSubmit()">Generate Diagnostic Report</button>
+                    </form>
                 </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
-    {% endif %}
 
-    {% if history %}
-    <div class="report-section">
-        <h3 class="section-header" style="color: var(--neon-purple);">Biometric Progression Timeline</h3>
-        
-        <div style="position: relative; margin-bottom: 30px; background: rgba(5, 8, 17, 0.6); padding: 15px; border-radius: 10px; border: 1px solid rgba(0, 243, 255, 0.1);">
-            <canvas id="healthAnalyticsChart" style="max-height: 350px; width: 100%;"></canvas>
+        <!-- SCREEN 3: DEDICATED REPORT OUTPUT VIEW -->
+        <div class="page-screen {% if results %}active-screen{% endif %}" id="reportScreen" style="padding-top: 20px;">
+            {% if results %}
+            
+            <!-- OVERALL REPORT FEEDBACK SUMMARY (PLAIN ENGLISH EXPLANATION) -->
+            <div class="overall-summary-card">
+                <div class="overall-summary-title">
+                    <span>📋 Summary of What Your Report Means</span>
+                </div>
+                <div class="overall-summary-body">
+                    {% set highest_risk = results|sort(attribute='probability', reverse=True)|first %}
+                    {% if highest_risk.probability >= 50 %}
+                        Based on the biometrics you entered, your profile indicates an <strong>elevated risk ({{ highest_risk.probability }}%) for {{ highest_risk.disease }}</strong>. This suggests that your blood pressure, sugar levels, or lifestyle markers currently align with clinical risk patterns for this condition. It is strongly recommended to share this report with a qualified GP for follow-up blood screening.
+                    {% elif highest_risk.probability >= 25 %}
+                        According to your entered data, your physiological indicators show a <strong>moderate risk ({{ highest_risk.probability }}%) for {{ highest_risk.disease }}</strong>. While not critically high, adjusting your diet, daily activity, and monitoring blood pressure can significantly lower your risk over time.
+                    {% else %}
+                        Great news! Based on the data you provided, your calculated risk scores across Hypertension, Diabetes, and Stroke are all currently in a <strong>low and healthy range (under 25%)</strong>. Maintain your current healthy lifestyle and regular routine health checkups.
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card-dark-form">
+                <div class="card-header-dark">
+                    <h3 class="card-title-dark">Diagnostic Assessment Report for {{ name }}</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-action-outline" onclick="openFormScreenDirectly()">+ Evaluate New Patient</button>
+                        <button class="btn-action-outline" onclick="navigateToHub()">Go to Main Hub</button>
+                    </div>
+                </div>
+                <div class="card-body-dark">
+                    <div class="download-banner-dark">
+                        <div>
+                            <p>Official Diagnostic Summary Compiled</p>
+                            <p style="font-size: 0.85rem; color: var(--text-secondary); font-weight: normal; margin-top: 2px;">Download styled report directly in PDF format.</p>
+                        </div>
+                        {% if scan_id %}
+                        <a href="/download/{{ scan_id }}" class="btn-download-highlight" download>Download Your Report (PDF)</a>
+                        {% else %}
+                        <button class="btn-download-highlight" onclick="window.print()">Download Your Report (PDF)</button>
+                        {% endif %}
+                    </div>
+
+                    <div class="report-card-grid">
+                        {% for item in results %}
+                        <div class="disease-report-card {% if loop.first %}high-risk{% elif loop.last %}low-risk{% else %}medium-risk{% endif %}">
+                            <div class="report-card-header">
+                                <span class="disease-title">{{ item.disease }} Risk Assessment</span>
+                                <span class="risk-badge-large {% if loop.first %}risk-high-badge{% elif loop.last %}risk-low-badge{% else %}risk-med-badge{% endif %}">
+                                    {{ item.probability }}% Score
+                                </span>
+                            </div>
+
+                            <div class="progress-bar-bg-dark">
+                                <div class="progress-bar-fill-dark {% if loop.first %}fill-high{% elif loop.last %}fill-low{% else %}fill-medium{% endif %}" style="width: {{ item.probability }}%;"></div>
+                            </div>
+
+                            <div class="grid-box-dark">
+                                <div class="info-panel-dark symptom-panel-dark">
+                                    <strong>Clinical Indicators:</strong>
+                                    <ul>
+                                        {% for symptom in item.symptoms %}
+                                        <li>{{ symptom }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                
+                                <div class="info-panel-dark precaution-panel-dark">
+                                    <strong>Preventative Protocol:</strong>
+                                    <ul>
+                                        {% for precaution in item.precautions %}
+                                        <li>{{ precaution }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {% if history %}
+            <div class="card-dark-form">
+                <div class="card-header-dark">
+                    <h3 class="card-title-dark">Biometric Progression Timeline</h3>
+                </div>
+                <div class="card-body-dark">
+                    <div style="position: relative; margin-bottom: 28px; background: rgba(0,0,0,0.25); padding: 20px; border-radius: 12px; border: 1px solid var(--border-glow);">
+                        <canvas id="healthAnalyticsChart" style="max-height: 320px; width: 100%;"></canvas>
+                    </div>
+
+                    <h4 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.875rem; font-weight: 800; text-transform: uppercase; color: var(--nhs-cyan); margin-bottom: 12px;">Historical Assessment Logs</h4>
+                    <div style="overflow-x: auto;">
+                        <table class="history-table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Date/Timestamp</th>
+                                    <th>Age</th>
+                                    <th>Diabetes</th>
+                                    <th>Hypertension</th>
+                                    <th>Stroke</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for run in history %}
+                                <tr>
+                                    <td>{{ run.timestamp }}</td>
+                                    <td style="font-weight: 700; color: #ffffff;">{{ run.age }}</td>
+                                    <td style="color: var(--nhs-cyan); font-weight: 700;">{{ run.diabetes_risk }}%</td>
+                                    <td style="color: var(--status-danger); font-weight: 700;">{{ run.hypertension_risk }}%</td>
+                                    <td style="color: var(--status-success); font-weight: 700;">{{ run.stroke_risk }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="text-align: center; margin-top: 16px; margin-bottom: 32px; display: flex; justify-content: center; gap: 14px;">
+                <button class="btn-action-outline" onclick="openFormScreenDirectly()">+ Evaluate New Patient</button>
+                <button class="btn-action-outline" onclick="navigateToHub()">Go to Main Dashboard</button>
+            </div>
+            {% endif %}
         </div>
 
-        <h3 class="section-header" style="color: var(--neon-purple); font-size: 16px;">Patient Progression & Trend Log</h3>
-        <div style="overflow-x: auto;">
-            <table class="history-table">
-                <thead>
-                    <tr>
-                        <th>Date of Record</th>
-                        <th>Age</th>
-                        <th>Diabetes Risk</th>
-                        <th>Hypertension Risk</th>
-                        <th>Stroke Risk</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for run in history %}
-                    <tr>
-                        <td style="color:#94a3b8;">{{ run.timestamp }}</td>
-                        <td style="font-weight: bold;">{{ run.age }}</td>
-                        <td style="font-weight:600; color: var(--neon-blue);">{{ run.diabetes_risk }}%</td>
-                        <td style="font-weight:600; color: var(--neon-pink);">{{ run.hypertension_risk }}%</td>
-                        <td style="font-weight:600; color: var(--neon-green);">{{ run.stroke_risk }}%</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
     </div>
+
+    <!-- MAIN FOOTER (Hidden during intake form view) -->
+    <footer class="nhs-footer" id="mainFooterNav">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Clinical Decision Support System</h4>
+                <p>Designed for UK digital clinical environments to assist general practitioners and healthcare teams with accelerated probabilistic risk assessment.</p>
+                <p style="margin-top: 12px; font-weight: 700; color: var(--nhs-cyan);">For urgent medical assistance, dial NHS 111 or 999 in emergencies.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Help & Contact</h4>
+                <ul>
+                    <li>📧 Helpdesk: support@clinicaldecision.nhs.uk</li>
+                    <li>📞 Clinical Support: 0800 111 4321</li>
+                    <li>🕒 Hours: Mon - Fri, 08:00 - 18:00 GMT</li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Compliance</h4>
+                <ul>
+                    <li>Standard Clinical Safety</li>
+                    <li>UK GDPR Compliant Architecture</li>
+                    <li>Information Governance Certified</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 Clinical Decision Support System. All Rights Reserved.</span>
+            <span>Version 2.8.0-UK | Designed for Professional Healthcare Guidance</span>
+        </div>
+    </footer>
 
     <script>
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function handleFeedbackSubmit(event) {
+            event.preventDefault();
+            document.getElementById('feedbackForm').reset();
+            document.getElementById('feedbackSuccess').style.display = 'block';
+            setTimeout(() => { document.getElementById('feedbackSuccess').style.display = 'none'; }, 4000);
+        }
+
+        /* SCREEN SWITCHING LOGIC */
+        function switchScreen(screenId) {
+            document.querySelectorAll('.page-screen').forEach(s => s.classList.remove('active-screen'));
+            document.getElementById(screenId).classList.add('active-screen');
+
+            const header = document.getElementById('mainHeaderNav');
+            const footer = document.getElementById('mainFooterNav');
+
+            if (screenId === 'formScreen') {
+                header.style.display = 'none';
+                footer.style.display = 'none';
+            } else {
+                header.style.display = 'flex';
+                footer.style.display = 'block';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function navigateToHub() {
+            switchScreen('hubScreen');
+        }
+
+        function openFormScreenDirectly() {
+            switchScreen('formScreen');
+        }
+
+        /* TRANSITION 1: HUB -> FORM SCREEN WITH LOADING BAR */
+        function launchIntakePortalSequence() {
+            const overlay = document.getElementById('loadingOverlay');
+            const heading = document.getElementById('loaderHeading');
+            const statusText = document.getElementById('loaderStatusText');
+            const barFill = document.getElementById('loaderBarFill');
+
+            heading.textContent = "Accessing Intake Portal";
+            statusText.textContent = "Loading medical form variables and validation checks...";
+            barFill.style.width = '0%';
+            overlay.style.display = 'flex';
+
+            setTimeout(() => { barFill.style.width = '45%'; }, 400);
+            setTimeout(() => { barFill.style.width = '85%'; }, 1200);
+            
+            setTimeout(() => {
+                barFill.style.width = '100%';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    switchScreen('formScreen');
+                }, 400);
+            }, 2000);
+        }
+
+        /* TRANSITION 2: FORM -> CALCULATION ENGINE & SUBMIT */
+        function startCalculationsAndSubmit() {
+            const form = document.getElementById('intakeForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const overlay = document.getElementById('loadingOverlay');
+            const heading = document.getElementById('loaderHeading');
+            const statusText = document.getElementById('loaderStatusText');
+            const barFill = document.getElementById('loaderBarFill');
+
+            heading.textContent = "Clinical Calculation Engine Active";
+            statusText.textContent = "Parsing intake vitals and patient metrics...";
+            barFill.style.width = '0%';
+            overlay.style.display = 'flex';
+
+            setTimeout(() => {
+                barFill.style.width = '35%';
+                statusText.textContent = "Calculating posterior probability across disease profiles...";
+            }, 1000);
+
+            setTimeout(() => {
+                barFill.style.width = '75%';
+                statusText.textContent = "Compiling clinical risk matrix and progression log...";
+            }, 2200);
+
+            setTimeout(() => {
+                barFill.style.width = '100%';
+                form.submit();
+            }, 3400);
+        }
+
+        function openBmiModal() {
+            document.getElementById('bmiModal').style.display = 'flex';
+        }
+
+        function closeBmiModal() {
+            document.getElementById('bmiModal').style.display = 'none';
+        }
+
+        function updateBmiBadge() {
+            const bmi = parseFloat(document.getElementById('bmiInput').value);
+            const badge = document.getElementById('bmiBadge');
+            
+            if (isNaN(bmi) || bmi <= 0) {
+                badge.textContent = "Category: Enter value";
+                badge.style.color = "var(--text-muted)";
+                return;
+            }
+            
+            if (bmi < 18.5) {
+                badge.textContent = "Category: Underweight";
+                badge.style.color = "var(--nhs-cyan)";
+            } else if (bmi < 25.0) {
+                badge.textContent = "Category: Normal weight";
+                badge.style.color = "var(--status-success)";
+            } else if (bmi < 30.0) {
+                badge.textContent = "Category: Overweight";
+                badge.style.color = "var(--status-warning)";
+            } else {
+                badge.textContent = "Category: Obesity Class";
+                badge.style.color = "var(--status-danger)";
+            }
+        }
+
+        {% if history %}
         document.addEventListener("DOMContentLoaded", function() {
             const ctx = document.getElementById('healthAnalyticsChart').getContext('2d');
             const labels = {{ chart_labels | tojson | safe if chart_labels else '[]' }};
@@ -485,49 +1392,25 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        {
-                            label: 'Diabetes Risk (%)',
-                            data: diabetesData,
-                            borderColor: '#00f3ff',
-                            backgroundColor: 'rgba(0, 243, 255, 0.05)',
-                            borderWidth: 3,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Hypertension Risk (%)',
-                            data: hypertensionData,
-                            borderColor: '#ff007f',
-                            backgroundColor: 'rgba(255, 0, 127, 0.05)',
-                            borderWidth: 3,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Stroke Risk (%)',
-                            data: strokeData,
-                            borderColor: '#39ff14',
-                            backgroundColor: 'rgba(57, 255, 20, 0.05)',
-                            borderWidth: 3,
-                            tension: 0.3
-                        }
+                        { label: 'Diabetes Risk (%)', data: diabetesData, borderColor: '#38bdf8', borderWidth: 2.5, tension: 0.2 },
+                        { label: 'Hypertension Risk (%)', data: hypertensionData, borderColor: '#ef4444', borderWidth: 2.5, tension: 0.2 },
+                        { label: 'Stroke Risk (%)', data: strokeData, borderColor: '#22c55e', borderWidth: 2.5, tension: 0.2 }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { labels: { color: '#e2e8f0', font: { family: 'Rajdhani', size: 14, weight: 'bold' } } }
+                        legend: { labels: { color: '#ffffff' } }
                     },
                     scales: {
-                        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Rajdhani' } } },
-                        y: { min: 0, max: 100, grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Rajdhani' } } }
+                        x: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                        y: { ticks: { color: '#cbd5e1' }, grid: { color: 'rgba(255,255,255,0.1)' } }
                     }
                 }
             });
         });
+        {% endif %}
     </script>
-    {% endif %}
-
-    <p class="disclaimer">Institutional Disclaimer: This portal operates an analytical predictive model utilizing Naive Bayes probability algorithms for academic evaluation. It does not perform physical medical diagnosis.</p>
-
 </body>
 </html>
