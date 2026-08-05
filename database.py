@@ -6,17 +6,14 @@ from datetime import datetime
 DB_PATH = os.path.join(os.path.dirname(__file__), 'health_portal.db')
 
 def get_db_connection():
-    """Establishes a safe connection to the local SQLite file."""
     conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row  # Allows accessing columns by name like a dictionary
+    conn.row_factory = sqlite3.Row
     return conn
 
 def init_db():
-    """Initializes the database tables if they do not exist yet."""
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # 1. Users table to store patient profiles
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,7 +22,6 @@ def init_db():
         )
     ''')
     
-    # 2. Scans table to store historical diagnostic entries linked to a user
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS scans (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +45,6 @@ def init_db():
     conn.close()
 
 def get_or_create_user(name):
-    """Checks if a user exists by name, otherwise registers them fresh."""
     conn = get_db_connection()
     cursor = conn.cursor()
     
@@ -69,7 +64,6 @@ def get_or_create_user(name):
     return user_id
 
 def save_scan_results(user_id, age, systolic, diastolic, bmi, smoker, activity, risks, ai_summary=""):
-    """Logs a structural assessment run into the patient's record matrix."""
     conn = get_db_connection()
     cursor = conn.cursor()
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -89,7 +83,6 @@ def save_scan_results(user_id, age, systolic, diastolic, bmi, smoker, activity, 
     conn.close()
 
 def get_user_history(user_id):
-    """Retrieves all past analytical runs for a given user profile."""
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM scans WHERE user_id = ? ORDER BY timestamp DESC", (user_id,))
@@ -98,7 +91,6 @@ def get_user_history(user_id):
     return history
 
 def export_db_to_csv():
-    """Extracts all logged patient runs into a human-readable CSV spreadsheet."""
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('''
