@@ -30,7 +30,6 @@ DISEASE_KNOWLEDGE_BASE = {
             "Schedule an HbA1c screening with a general practitioner to evaluate long-term trends."
         ]
     },
-    'Helvetica': {}, # Placeholder to avoid rendering anomalies
     'Hypertension': {
         'symptoms': [
             "Severe morning headaches, neck pain, and occasional dizziness.",
@@ -83,7 +82,6 @@ def calculate_naive_bayes(user_inputs):
         matched_any_features = False
         
         for feature_name, user_value in user_inputs.items():
-            # Skip advanced structural fields if they don't belong to the static core JSON feature layout
             if feature_name in ['sleep_hours', 'resting_hr']:
                 continue
 
@@ -132,13 +130,11 @@ def index():
     history_logs = None
     latest_scan_id = None
     
-    # Timeline Lists Initialization
     chart_labels = []
     diabetes_data = []
     hypertension_data = []
     stroke_data = []
 
-    # Academic Performance Model Evaluation Matrix Metrics
     metrics = {
         'accuracy': 87.4,
         'precision': 85.1,
@@ -169,7 +165,6 @@ def index():
             if bmi < 10 or bmi > 60:
                 raise ValueError("BMI must be a realistic numeric calculation between 10 and 60.")
             
-            # Categorical bin alignment logic
             if exact_age < 25: age_flag = "1"
             elif exact_age < 40: age_flag = "4"
             elif exact_age < 55: age_flag = "7"
