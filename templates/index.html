@@ -44,11 +44,7 @@
             --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.4);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-body);
@@ -60,7 +56,6 @@
             flex-direction: column;
         }
 
-        /* Header Navigation */
         .nhs-header {
             background: linear-gradient(135deg, var(--nhs-blue) 0%, var(--nhs-blue-dark) 100%);
             color: #ffffff;
@@ -79,16 +74,10 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 1.3rem;
             font-weight: 800;
-            letter-spacing: -0.01em;
             cursor: pointer;
         }
 
-        .header-brand svg {
-            width: 32px;
-            height: 32px;
-            fill: #ffffff;
-            flex-shrink: 0;
-        }
+        .header-brand svg { width: 32px; height: 32px; fill: #ffffff; flex-shrink: 0; }
 
         .status-badge {
             background: rgba(255, 255, 255, 0.18);
@@ -99,7 +88,6 @@
             font-size: 0.8rem;
         }
 
-        /* Hero Banner Section */
         .hero-banner {
             background: linear-gradient(135deg, #031b38 0%, #003087 50%, #005eb8 100%);
             color: #ffffff;
@@ -127,11 +115,7 @@
             color: #ffffff;
         }
 
-        .hero-text p {
-            font-size: 1.025rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+        .hero-text p { font-size: 1.025rem; color: var(--text-secondary); line-height: 1.6; }
 
         .hero-illustration svg {
             width: 100%;
@@ -158,17 +142,9 @@
             font-weight: 600;
         }
 
-        /* Screen State Controller */
-        .page-screen {
-            display: none;
-            width: 100%;
-        }
+        .page-screen { display: none; width: 100%; }
+        .page-screen.active-screen { display: block; }
 
-        .page-screen.active-screen {
-            display: block;
-        }
-
-        /* Center Landing CTA Section */
         .landing-cta-box {
             text-align: center;
             background: linear-gradient(145deg, #0d223d 0%, #13335c 100%);
@@ -187,11 +163,7 @@
             margin-bottom: 10px;
         }
 
-        .landing-cta-box p {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
+        .landing-cta-box p { font-size: 1rem; color: var(--text-secondary); margin-bottom: 24px; }
 
         .btn-launch-primary {
             background: linear-gradient(135deg, #005eb8 0%, #00a499 100%);
@@ -216,7 +188,6 @@
             box-shadow: 0 8px 26px rgba(0, 164, 153, 0.55);
         }
 
-        /* About Portal Cards */
         .portal-about-card {
             background: linear-gradient(145deg, #0b1f3a 0%, #102a4d 100%);
             border: 1px solid var(--border-glow);
@@ -241,11 +212,7 @@
             margin-bottom: 24px;
         }
 
-        .target-disease-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+        .target-disease-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .disease-scope-box {
             background: rgba(0, 0, 0, 0.25);
@@ -262,13 +229,8 @@
             margin-bottom: 8px;
         }
 
-        .disease-scope-box p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
+        .disease-scope-box p { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; }
 
-        /* Plain-English Dynamic Summary Banner */
         .overall-summary-card {
             background: linear-gradient(145deg, #112c4e 0%, #183d6b 100%);
             border: 2px solid var(--nhs-cyan);
@@ -284,18 +246,10 @@
             font-weight: 800;
             color: #ffffff;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .overall-summary-body {
-            font-size: 0.975rem;
-            color: var(--text-secondary);
-            line-height: 1.65;
-        }
+        .overall-summary-body { font-size: 0.975rem; color: var(--text-secondary); line-height: 1.65; }
 
-        /* Dedicated Form Screen Styling */
         .form-top-bar {
             display: flex;
             justify-content: space-between;
@@ -343,15 +297,12 @@
 
         .form-grid.full-width { grid-template-columns: 1fr; }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+        .form-group { display: flex; flex-direction: column; }
 
         .label-wrapper {
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: space-between;
             margin-bottom: 8px;
         }
 
@@ -361,7 +312,24 @@
             color: var(--nhs-cyan);
             text-transform: uppercase;
             letter-spacing: 0.04em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
+
+        .input-toggle-btn {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--nhs-cyan);
+            color: var(--nhs-cyan);
+            font-size: 0.725rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .input-toggle-btn:hover { background: var(--nhs-cyan); color: #0b1f3a; }
 
         .info-btn {
             display: inline-flex;
@@ -378,7 +346,10 @@
             cursor: pointer;
             border: 1px solid var(--nhs-cyan);
             line-height: 1;
+            padding: 0;
         }
+
+        .info-btn:hover { background: var(--nhs-cyan); color: #0b1f3a; }
 
         select, input, textarea {
             padding: 14px 18px;
@@ -392,10 +363,7 @@
             transition: all 0.2s ease;
         }
 
-        select option {
-            background-color: #0b1f3a;
-            color: #ffffff;
-        }
+        select option { background-color: #0b1f3a; color: #ffffff; }
 
         select:focus, input:focus, textarea:focus {
             outline: none;
@@ -404,12 +372,19 @@
             box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
         }
 
-        .bmi-category-badge {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-top: 6px;
+        .bmi-calculated-text-box {
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            color: var(--nhs-cyan);
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.4;
         }
+
+        .bmi-category-badge { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
 
         button.btn-submit {
             background: linear-gradient(135deg, #005eb8 0%, #00a499 100%);
@@ -445,12 +420,8 @@
             text-decoration: none;
         }
 
-        .btn-action-outline:hover {
-            background: var(--nhs-cyan);
-            color: #0b1f3a;
-        }
+        .btn-action-outline:hover { background: var(--nhs-cyan); color: #0b1f3a; }
 
-        /* Report Output Interface */
         .download-banner-dark {
             background: linear-gradient(135deg, #102a4d 0%, #1e4575 100%);
             border: 1px solid var(--border-glow);
@@ -479,11 +450,7 @@
             text-align: center;
         }
 
-        .report-card-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
+        .report-card-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
 
         .disease-report-card {
             background: linear-gradient(145deg, #0e2440 0%, #143358 100%);
@@ -549,11 +516,7 @@
         .fill-medium { background-color: var(--nhs-cyan); }
         .fill-low { background-color: var(--status-success); }
 
-        .grid-box-dark {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+        .grid-box-dark { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
         .info-panel-dark {
             padding: 20px;
@@ -590,11 +553,7 @@
             color: var(--text-secondary);
         }
 
-        /* FAQ Styling */
-        .faq-section {
-            margin-top: 52px;
-            margin-bottom: 40px;
-        }
+        .faq-section { margin-top: 52px; margin-bottom: 40px; }
 
         .faq-item {
             background: linear-gradient(145deg, #0f2744 0%, #132f52 100%);
@@ -624,7 +583,6 @@
             line-height: 1.6;
         }
 
-        /* Feedback Section */
         .feedback-section {
             background: linear-gradient(145deg, #0c1d33 0%, #112845 100%);
             border: 1px solid var(--border-glow);
@@ -641,7 +599,6 @@
             margin-bottom: 10px;
         }
 
-        /* Footer */
         .nhs-footer {
             background: #040e1a;
             color: #ffffff;
@@ -688,12 +645,11 @@
             gap: 12px;
         }
 
-        /* Modal Box */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 25, 47, 0.8);
+            background: rgba(10, 25, 47, 0.85);
             backdrop-filter: blur(6px);
             z-index: 9999;
             justify-content: center;
@@ -718,11 +674,7 @@
             margin-bottom: 16px;
         }
 
-        .modal-body {
-            font-size: 0.925rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
+        .modal-body { font-size: 0.925rem; color: var(--text-secondary); line-height: 1.6; }
 
         .modal-close {
             margin-top: 24px;
@@ -736,7 +688,6 @@
             float: right;
         }
 
-        /* Loader Overlay */
         .loader-overlay {
             display: none;
             position: fixed;
@@ -781,14 +732,8 @@
             overflow: hidden;
         }
 
-        .calc-progress-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--nhs-cyan);
-            transition: width 0.3s ease;
-        }
+        .calc-progress-fill { height: 100%; width: 0%; background: var(--nhs-cyan); transition: width 0.3s ease; }
 
-        /* Comprehensive Mobile Responsiveness Media Queries */
         @media (max-width: 868px) {
             .hero-container { grid-template-columns: 1fr; text-align: center; }
             .hero-illustration { display: none; }
@@ -847,7 +792,6 @@
             .form-top-bar { flex-direction: column; gap: 10px; align-items: stretch; text-align: center; }
         }
 
-        /* Print CSS for PDF Downloads */
         @media print {
             body { background-color: #0a192f !important; color: #ffffff !important; }
             .hero-banner, .faq-section, .feedback-section, .nhs-footer, .btn-action-outline, .download-banner-dark, .form-top-bar {
@@ -859,7 +803,7 @@
 </head>
 <body>
 
-    <!-- Loading Overlay for State Transitions -->
+    <!-- Loading Overlay -->
     <div class="loader-overlay" id="loadingOverlay">
         <div class="loader-card">
             <div class="spinner"></div>
@@ -895,7 +839,49 @@
         </div>
     </div>
 
-    <!-- MAIN NAVBAR (Hidden during intake form view) -->
+    <!-- Blood Sugar Guidance Popup Modal -->
+    <div class="modal-overlay" id="sugarModal">
+        <div class="modal-card">
+            <h3 class="modal-title">Fasting Blood Sugar Guidance</h3>
+            <div class="modal-body">
+                <p><strong>Fasting Blood Sugar</strong> measures blood glucose concentration after an overnight fast (at least 8 hours without eating).</p>
+                <br>
+                <p><strong>Standard Reference Ranges (mg/dL):</strong></p>
+                <ul style="padding-left: 20px; margin-top: 6px;">
+                    <li><strong>Normal:</strong> Under 100 mg/dL</li>
+                    <li><strong>Prediabetes (Elevated):</strong> 100 – 125 mg/dL</li>
+                    <li><strong>Diabetes Threshold:</strong> 126 mg/dL or higher</li>
+                </ul>
+                <br>
+                <p><strong>What if you don't know your exact value?</strong></p>
+                <p style="margin-top: 4px;">Click the <em>"Switch to Category"</em> button above the field to select either <strong>Normal</strong> or <strong>Elevated</strong> based on whether you've ever been told your blood sugar is high during routine checkups.</p>
+            </div>
+            <button class="modal-close" onclick="closeSugarModal()">Close Guidance</button>
+        </div>
+    </div>
+
+    <!-- Cholesterol Guidance Popup Modal -->
+    <div class="modal-overlay" id="cholModal">
+        <div class="modal-card">
+            <h3 class="modal-title">Total Cholesterol Guidance</h3>
+            <div class="modal-body">
+                <p><strong>Total Cholesterol</strong> measures the overall level of lipids in your bloodstream, combining LDL ("bad"), HDL ("good"), and triglycerides.</p>
+                <br>
+                <p><strong>Standard Reference Ranges (mg/dL):</strong></p>
+                <ul style="padding-left: 20px; margin-top: 6px;">
+                    <li><strong>Desirable / Normal:</strong> Under 200 mg/dL</li>
+                    <li><strong>Borderline High:</strong> 200 – 239 mg/dL</li>
+                    <li><strong>High Risk:</strong> 240 mg/dL or higher</li>
+                </ul>
+                <br>
+                <p><strong>What if you don't know your exact value?</strong></p>
+                <p style="margin-top: 4px;">Click the <em>"Switch to Category"</em> button above the field to select either <strong>Normal (&lt; 200 mg/dL)</strong> or <strong>Elevated (≥ 200 mg/dL)</strong>.</p>
+            </div>
+            <button class="modal-close" onclick="closeCholModal()">Close Guidance</button>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR -->
     <header class="nhs-header" id="mainHeaderNav">
         <div class="header-brand" onclick="navigateToHub()">
             <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
@@ -913,9 +899,8 @@
         <div class="error-alert" style="margin-top: 16px;">⚠️ {{ error }}</div>
         {% endif %}
 
-        <!-- SCREEN 1: LANDING HUB (Default View) -->
+        <!-- SCREEN 1: LANDING HUB -->
         <div class="page-screen {% if not results %}active-screen{% endif %}" id="hubScreen">
-            <!-- Hero Banner -->
             <section class="hero-banner">
                 <div class="hero-container">
                     <div class="hero-text">
@@ -934,13 +919,12 @@
                 </div>
             </section>
 
-            <!-- 1. PORTAL PURPOSE & ELIGIBILITY OVERVIEW -->
             <section class="portal-about-card">
                 <div class="section-header-title">
                     <span>🩺 What Is This Portal & Who Should Use It?</span>
                 </div>
                 <p class="portal-about-text">
-                    This portal is an early-stage clinical screening tool designed for <strong>general practitioners, healthcare workers, and individual patients</strong> who wish to assess their baseline statistical probability for metabolic and cardiovascular conditions. By inputting non-invasive biometric markers—such as blood pressure readings, fasting glucose levels, BMI, and lifestyle habits—the portal generates real-time probabilistic risk scores.
+                    This portal is an early-stage clinical screening tool designed for <strong>general practitioners, healthcare workers, and individual patients</strong> who wish to assess their baseline statistical probability for metabolic and cardiovascular conditions. By inputting non-invasive biometric markers—such as blood pressure readings, fasting glucose levels, cholesterol, BMI, and lifestyle habits—the portal generates real-time probabilistic risk scores.
                 </p>
 
                 <h4 style="font-family: 'Plus Jakarta Sans'; font-size: 0.875rem; color: var(--nhs-cyan); font-weight: 800; text-transform: uppercase; margin-bottom: 12px;">Conditions Evaluated By This Portal:</h4>
@@ -958,12 +942,11 @@
 
                     <div class="disease-scope-box">
                         <h4>Stroke & Vascular Risk</h4>
-                        <p>Integrates blood pressure metrics, heart rate patterns, age, and tobacco usage to compute cerebrovascular event probability.</p>
+                        <p>Integrates blood pressure metrics, cholesterol, heart disease history, sleep patterns, and tobacco usage to compute cerebrovascular event probability.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- 2. CENTER LAUNCH ACTION BOX -->
             <div class="landing-cta-box">
                 <h3>Ready to Evaluate Baseline Clinical Health Metrics?</h3>
                 <p>If you are someone looking to test physiological markers and generate a condition diagnostic report, begin here.</p>
@@ -973,7 +956,6 @@
                 </button>
             </div>
 
-            <!-- Frequently Asked Questions -->
             <section class="faq-section">
                 <h3 style="font-family: 'Plus Jakarta Sans'; font-size: 1.15rem; font-weight: 800; color: #ffffff; margin-bottom: 16px;">Frequently Asked Questions</h3>
                 
@@ -983,7 +965,7 @@
                         <span>▼</span>
                     </div>
                     <div class="faq-answer">
-                        Calculations utilize Naive Bayes probabilistic models trained on epidemiological health indicators, evaluating systolic/diastolic blood pressure, fasting blood sugar, BMI, and lifestyle metrics.
+                        Calculations utilize Naive Bayes probabilistic models trained on epidemiological health indicators, evaluating systolic/diastolic blood pressure, fasting blood sugar, cholesterol, BMI, sleep hours, and lifestyle metrics.
                     </div>
                 </div>
 
@@ -1008,7 +990,6 @@
                 </div>
             </section>
 
-            <!-- Support Inquiry Form -->
             <section class="feedback-section">
                 <h4 class="feedback-title">Have a Question or Support Inquiry?</h4>
                 <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">Submit your comments, questions, or clinical inquiries directly to the technical team.</p>
@@ -1029,7 +1010,7 @@
             </section>
         </div>
 
-        <!-- SCREEN 2: CLEAN DEDICATED FORM SCREEN -->
+        <!-- SCREEN 2: INTAKE FORM SCREEN -->
         <div class="page-screen" id="formScreen" style="padding-top: 16px;">
             <div class="form-top-bar">
                 <button class="btn-action-outline" onclick="navigateToHub()">← Return to Main Hub</button>
@@ -1042,17 +1023,20 @@
                 </div>
                 <div class="card-body-dark">
                     <form method="POST" id="intakeForm">
+                        
+                        <!-- Row 1: Name & Age -->
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Patient Full Name</label>
-                                <input type="text" name="name" placeholder="e.g. John Doe" value="{{ name if name else '' }}" required>
+                                <input type="text" name="name" id="inputName" placeholder="e.g. John Doe" value="{{ name if name else '' }}" required>
                             </div>
                             <div class="form-group">
                                 <label>Age (Years)</label>
-                                <input type="number" name="age" placeholder="e.g. 45" min="1" max="120" required>
+                                <input type="number" name="age" id="inputAge" placeholder="e.g. 45" min="1" max="120" required>
                             </div>
                         </div>
 
+                        <!-- Row 2: Biological Sex & Heart Disease History -->
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Biological Sex</label>
@@ -1062,60 +1046,138 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Fasting Blood Sugar</label>
-                                <select name="high_sugar" required>
-                                    <option value="0">Normal (&lt; 120 mg/dL)</option>
-                                    <option value="1">Elevated (≥ 120 mg/dL)</option>
+                                <label>Heart Disease History</label>
+                                <select name="heart_disease" required>
+                                    <option value="0">No Prior Diagnosed Heart Condition</option>
+                                    <option value="1">Diagnosed Heart Condition / Coronary Event</option>
                                 </select>
                             </div>
                         </div>
 
+                        <!-- Row 3: Fasting Blood Sugar & Total Cholesterol -->
+                        <div class="form-grid">
+                            <!-- Fasting Blood Sugar Dual Toggle with Info Icon -->
+                            <div class="form-group">
+                                <div class="label-wrapper">
+                                    <label>
+                                        Fasting Blood Sugar
+                                        <button type="button" class="info-btn" onclick="openSugarModal()" title="View Fasting Blood Sugar info">i</button>
+                                    </label>
+                                    <button type="button" class="input-toggle-btn" id="sugarToggleBtn" onclick="toggleSugarMode()">Switch to Category</button>
+                                </div>
+                                <input type="hidden" name="sugar_input_mode" id="sugarInputMode" value="exact">
+                                
+                                <div id="sugarExactBox">
+                                    <input type="number" step="0.1" name="exact_sugar" id="inputSugar" placeholder="e.g. 110 (mg/dL)" min="40" max="500">
+                                </div>
+                                
+                                <div id="sugarCatBox" style="display: none;">
+                                    <select name="high_sugar">
+                                        <option value="0">Normal (&lt; 120 mg/dL)</option>
+                                        <option value="1">Elevated (≥ 120 mg/dL)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Total Cholesterol Dual Toggle with Info Icon -->
+                            <div class="form-group">
+                                <div class="label-wrapper">
+                                    <label>
+                                        Total Cholesterol
+                                        <button type="button" class="info-btn" onclick="openCholModal()" title="View Total Cholesterol info">i</button>
+                                    </label>
+                                    <button type="button" class="input-toggle-btn" id="cholToggleBtn" onclick="toggleCholMode()">Switch to Category</button>
+                                </div>
+                                <input type="hidden" name="chol_input_mode" id="cholInputMode" value="exact">
+                                
+                                <div id="cholExactBox">
+                                    <input type="number" step="0.1" name="exact_cholesterol" id="inputCholesterol" placeholder="e.g. 195 (mg/dL)" min="80" max="600">
+                                </div>
+                                
+                                <div id="cholCatBox" style="display: none;">
+                                    <select name="high_cholesterol">
+                                        <option value="0">Normal (&lt; 200 mg/dL)</option>
+                                        <option value="1">Elevated (≥ 200 mg/dL)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 4: Blood Pressure -->
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Systolic Blood Pressure (mmHg)</label>
-                                <input type="number" name="systolic" placeholder="e.g. 120" min="50" max="250" required>
+                                <input type="number" name="systolic" id="inputSystolic" placeholder="e.g. 120" min="60" max="250" required>
                             </div>
                             <div class="form-group">
                                 <label>Diastolic Blood Pressure (mmHg)</label>
-                                <input type="number" name="diastolic" placeholder="e.g. 80" min="30" max="150" required>
+                                <input type="number" name="diastolic" id="inputDiastolic" placeholder="e.g. 80" min="30" max="150" required>
                             </div>
                         </div>
 
+                        <!-- Row 5: BMI & Tobacco Use -->
                         <div class="form-grid">
                             <div class="form-group">
                                 <div class="label-wrapper">
-                                    <label>Body Mass Index (BMI)</label>
-                                    <button type="button" class="info-btn" onclick="openBmiModal()" title="View BMI info">i</button>
+                                    <label id="bmiLabel">
+                                        Body Mass Index (BMI)
+                                        <button type="button" class="info-btn" onclick="openBmiModal()" title="View BMI info">i</button>
+                                    </label>
+                                    <button type="button" class="input-toggle-btn" id="bmiToggleBtn" onclick="toggleBmiMode()">Switch to Calc (Weight/Height)</button>
                                 </div>
-                                <input type="number" step="0.1" id="bmiInput" name="bmi" placeholder="e.g. 24.5" min="10" max="60" oninput="updateBmiBadge()" required>
-                                <span class="bmi-category-badge" id="bmiBadge">Category: Enter value</span>
+                                <input type="hidden" name="bmi_input_mode" id="bmiInputMode" value="direct">
+
+                                <!-- Direct BMI Box -->
+                                <div id="bmiDirectBox">
+                                    <input type="number" step="0.1" id="bmiInput" name="bmi" placeholder="e.g. 24.5" min="10" max="60" oninput="updateBmiBadge()" required>
+                                </div>
+
+                                <!-- Weight & Height Calculation Box -->
+                                <div id="bmiCalcBox" style="display: none;">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                        <input type="number" step="0.1" id="weightInput" name="weight" placeholder="Weight (kg)" min="20" max="300" oninput="calculateBmiFromInputs()">
+                                        <input type="number" step="0.1" id="heightInput" name="height" placeholder="Height (cm)" min="50" max="250" oninput="calculateBmiFromInputs()">
+                                    </div>
+                                    <!-- Dynamic Generated Text Output -->
+                                    <div class="bmi-calculated-text-box" id="bmiCalculatedTextBox" style="display: none;"></div>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                                    <span class="bmi-category-badge" id="bmiBadge">Category: Enter value</span>
+                                </div>
                             </div>
+
+                            <!-- Expanded Tobacco Selection Dropdown -->
                             <div class="form-group">
-                                <label>Tobacco Use</label>
+                                <label>Tobacco Use Status</label>
                                 <select name="smoker" required>
                                     <option value="0">Non-Smoker</option>
-                                    <option value="1">Current / Active Smoker</option>
+                                    <option value="0.5">Occasional / Sometimes</option>
+                                    <option value="1">Regular / Daily Smoker</option>
                                 </select>
                             </div>
                         </div>
 
+                        <!-- Row 6: Sleep Hours & Resting Heart Rate -->
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Sleep Average (Hours/Night)</label>
-                                <input type="number" step="0.5" name="sleep_hours" placeholder="e.g. 7.5" value="7.0">
+                                <input type="number" step="0.5" name="sleep_hours" id="inputSleep" placeholder="e.g. 7.5" value="7.0" min="1" max="24" required>
                             </div>
                             <div class="form-group">
                                 <label>Resting Heart Rate (BPM)</label>
-                                <input type="number" name="resting_hr" placeholder="e.g. 72" value="72">
+                                <input type="number" name="resting_hr" id="inputRestingHR" placeholder="e.g. 72" value="72" min="30" max="220" required>
                             </div>
                         </div>
 
+                        <!-- Row 7: Expanded Physical Activity Selection Dropdown -->
                         <div class="form-grid full-width">
                             <div class="form-group">
                                 <label>Physical Activity Profile</label>
                                 <select name="physactivity" required>
-                                    <option value="1">Physically Active (Regular Exercise)</option>
-                                    <option value="0">Sedentary (Minimal Activity)</option>
+                                    <option value="1">Regular / Active Exercise</option>
+                                    <option value="0.5">Moderate / Sometimes</option>
+                                    <option value="0">Sedentary (Minimal/None)</option>
                                 </select>
                             </div>
                         </div>
@@ -1126,24 +1188,27 @@
             </div>
         </div>
 
-        <!-- SCREEN 3: DEDICATED REPORT OUTPUT VIEW -->
+        <!-- SCREEN 3: REPORT OUTPUT VIEW -->
         <div class="page-screen {% if results %}active-screen{% endif %}" id="reportScreen" style="padding-top: 16px;">
             {% if results %}
             
-            <!-- OVERALL REPORT FEEDBACK SUMMARY -->
             <div class="overall-summary-card">
                 <div class="overall-summary-title">
                     <span>📋 Summary of What Your Report Means</span>
                 </div>
                 <div class="overall-summary-body">
                     {% set highest_risk = results|sort(attribute='probability', reverse=True)|first %}
-                    {% if highest_risk.probability >= 50 %}
-                        Based on the biometrics you entered, your profile indicates an <strong>elevated risk ({{ highest_risk.probability }}%) for {{ highest_risk.disease }}</strong>. This suggests that your blood pressure, sugar levels, or lifestyle markers currently align with clinical risk patterns for this condition. It is strongly recommended to share this report with a qualified GP for follow-up blood screening.
-                    {% elif highest_risk.probability >= 25 %}
-                        According to your entered data, your physiological indicators show a <strong>moderate risk ({{ highest_risk.probability }}%) for {{ highest_risk.disease }}</strong>. While not critically high, adjusting your diet, daily activity, and monitoring blood pressure can significantly lower your risk over time.
-                    {% else %}
-                        Great news! Based on the data you provided, your calculated risk scores across Hypertension, Diabetes, and Stroke are all currently in a <strong>low and healthy range (under 25%)</strong>. Maintain your current healthy lifestyle and regular routine health checkups.
-                    {% endif %}
+                    <p style="margin-bottom: 12px;">
+                        Based on your biometrics, your profile indicates an 
+                        <strong>{% if highest_risk.probability >= 50 %}elevated{% elif highest_risk.probability >= 25 %}moderate{% else %}low healthy{% endif %} risk ({{ highest_risk.probability }}%) for {{ highest_risk.disease }}</strong>.
+                    </p>
+                    <!-- Dynamic Explainability Statement Generated per Patient Metrics -->
+                    <p style="background: rgba(0,0,0,0.25); padding: 14px; border-radius: 10px; border-left: 4px solid var(--nhs-cyan); color: #ffffff; line-height: 1.6;">
+                        <strong>🔍 Personal Metrics Explanation:</strong> {{ highest_risk.explanation }}
+                    </p>
+                    <p style="margin-top: 12px; font-size: 0.875rem; color: var(--text-secondary);">
+                        It is recommended to share this report with a qualified GP for follow-up clinical screening and guidance.
+                    </p>
                 </div>
             </div>
 
@@ -1159,7 +1224,7 @@
                     <div class="download-banner-dark">
                         <div>
                             <p style="font-weight: 700;">Official Diagnostic Summary Compiled</p>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary); font-weight: normal; margin-top: 2px;">Download styled report directly in PDF format.</p>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); font-weight: normal; margin-top: 2px;">Download styled report directly in PDF format matching the portal theme.</p>
                         </div>
                         {% if scan_id %}
                         <a href="/download/{{ scan_id }}" class="btn-download-highlight" download>Download Your Report (PDF)</a>
@@ -1170,18 +1235,19 @@
 
                     <div class="report-card-grid">
                         {% for item in results %}
-                        <div class="disease-report-card {% if loop.first %}high-risk{% elif loop.last %}low-risk{% else %}medium-risk{% endif %}">
+                        <div class="disease-report-card {% if loop.first and item.probability >= 50 %}high-risk{% elif item.probability >= 25 %}medium-risk{% else %}low-risk{% endif %}">
                             <div class="report-card-header">
                                 <span class="disease-title">{{ item.disease }} Risk Assessment</span>
-                                <span class="risk-badge-large {% if loop.first %}risk-high-badge{% elif loop.last %}risk-low-badge{% else %}risk-med-badge{% endif %}">
+                                <span class="risk-badge-large {% if loop.first and item.probability >= 50 %}risk-high-badge{% elif item.probability >= 25 %}risk-med-badge{% else %}risk-low-badge{% endif %}">
                                     {{ item.probability }}% Score
                                 </span>
                             </div>
 
                             <div class="progress-bar-bg-dark">
-                                <div class="progress-bar-fill-dark {% if loop.first %}fill-high{% elif loop.last %}fill-low{% else %}fill-medium{% endif %}" style="width: {{ item.probability }}%;"></div>
+                                <div class="progress-bar-fill-dark {% if loop.first and item.probability >= 50 %}fill-high{% elif item.probability >= 25 %}fill-medium{% else %}fill-low{% endif %}" style="width: {{ item.probability }}%;"></div>
                             </div>
 
+                            <!-- Dynamic Clinical Indicators & Preventative Protocol per user metrics -->
                             <div class="grid-box-dark">
                                 <div class="info-panel-dark symptom-panel-dark">
                                     <strong>Clinical Indicators:</strong>
@@ -1255,7 +1321,7 @@
 
     </div>
 
-    <!-- MAIN FOOTER (Hidden during intake form view) -->
+    <!-- MAIN FOOTER -->
     <footer class="nhs-footer" id="mainFooterNav">
         <div class="footer-grid">
             <div class="footer-col">
@@ -1302,6 +1368,108 @@
             setTimeout(() => { document.getElementById('feedbackSuccess').style.display = 'none'; }, 4000);
         }
 
+        /* BMI DYNAMIC TOGGLE AND TEXT GENERATION LOGIC */
+        function toggleBmiMode() {
+            const modeInput = document.getElementById('bmiInputMode');
+            const directBox = document.getElementById('bmiDirectBox');
+            const calcBox = document.getElementById('bmiCalcBox');
+            const btn = document.getElementById('bmiToggleBtn');
+            const directInput = document.getElementById('bmiInput');
+
+            if (modeInput.value === 'direct') {
+                modeInput.value = 'calc';
+                directBox.style.display = 'none';
+                calcBox.style.display = 'block';
+                btn.textContent = 'Switch to Direct BMI';
+                directInput.removeAttribute('required');
+                calculateBmiFromInputs();
+            } else {
+                modeInput.value = 'direct';
+                directBox.style.display = 'block';
+                calcBox.style.display = 'none';
+                btn.textContent = 'Switch to Calc (Weight/Height)';
+                directInput.setAttribute('required', 'required');
+                updateBmiBadge();
+            }
+        }
+
+        function calculateBmiFromInputs() {
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            const heightCm = parseFloat(document.getElementById('heightInput').value);
+            const directInput = document.getElementById('bmiInput');
+            const calculatedBox = document.getElementById('bmiCalculatedTextBox');
+
+            if (!isNaN(weight) && weight > 0 && !isNaN(heightCm) && heightCm > 0) {
+                const heightMeters = heightCm / 100.0;
+                const computedBmi = (weight / (heightMeters * heightMeters)).toFixed(1);
+                directInput.value = computedBmi;
+
+                let category = "";
+                if (computedBmi < 18.5) category = "Underweight";
+                else if (computedBmi < 25.0) category = "Normal Weight";
+                else if (computedBmi < 30.0) category = "Overweight";
+                else category = "Obesity Class";
+
+                calculatedBox.innerHTML = `<strong>BMI Result:</strong> As per your weight (<strong>${weight} kg</strong>) and height (<strong>${heightCm} cm</strong>), your calculated BMI is <strong>${computedBmi}</strong> (${category}).`;
+                calculatedBox.style.display = 'block';
+                updateBmiBadge();
+            } else {
+                directInput.value = '';
+                calculatedBox.style.display = 'none';
+                calculatedBox.innerHTML = '';
+                updateBmiBadge();
+            }
+        }
+
+        /* DYNAMIC TOGGLES FOR SUGAR & CHOLESTEROL */
+        function toggleSugarMode() {
+            const modeInput = document.getElementById('sugarInputMode');
+            const exactBox = document.getElementById('sugarExactBox');
+            const catBox = document.getElementById('sugarCatBox');
+            const btn = document.getElementById('sugarToggleBtn');
+
+            if (modeInput.value === 'exact') {
+                modeInput.value = 'cat';
+                exactBox.style.display = 'none';
+                catBox.style.display = 'block';
+                btn.textContent = 'Switch to Exact (mg/dL)';
+            } else {
+                modeInput.value = 'exact';
+                exactBox.style.display = 'block';
+                catBox.style.display = 'none';
+                btn.textContent = 'Switch to Category';
+            }
+        }
+
+        function toggleCholMode() {
+            const modeInput = document.getElementById('cholInputMode');
+            const exactBox = document.getElementById('cholExactBox');
+            const catBox = document.getElementById('cholCatBox');
+            const btn = document.getElementById('cholToggleBtn');
+
+            if (modeInput.value === 'exact') {
+                modeInput.value = 'cat';
+                exactBox.style.display = 'none';
+                catBox.style.display = 'block';
+                btn.textContent = 'Switch to Exact (mg/dL)';
+            } else {
+                modeInput.value = 'exact';
+                exactBox.style.display = 'block';
+                catBox.style.display = 'none';
+                btn.textContent = 'Switch to Category';
+            }
+        }
+
+        /* MODAL OPEN/CLOSE FUNCTIONS */
+        function openBmiModal() { document.getElementById('bmiModal').style.display = 'flex'; }
+        function closeBmiModal() { document.getElementById('bmiModal').style.display = 'none'; }
+
+        function openSugarModal() { document.getElementById('sugarModal').style.display = 'flex'; }
+        function closeSugarModal() { document.getElementById('sugarModal').style.display = 'none'; }
+
+        function openCholModal() { document.getElementById('cholModal').style.display = 'flex'; }
+        function closeCholModal() { document.getElementById('cholModal').style.display = 'none'; }
+
         /* SCREEN SWITCHING LOGIC */
         function switchScreen(screenId) {
             document.querySelectorAll('.page-screen').forEach(s => s.classList.remove('active-screen'));
@@ -1321,15 +1489,9 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function navigateToHub() {
-            switchScreen('hubScreen');
-        }
+        function navigateToHub() { switchScreen('hubScreen'); }
+        function openFormScreenDirectly() { switchScreen('formScreen'); }
 
-        function openFormScreenDirectly() {
-            switchScreen('formScreen');
-        }
-
-        /* TRANSITION 1: HUB -> FORM SCREEN WITH LOADING BAR */
         function launchIntakePortalSequence() {
             const overlay = document.getElementById('loadingOverlay');
             const heading = document.getElementById('loaderHeading');
@@ -1353,12 +1515,70 @@
             }, 2000);
         }
 
-        /* TRANSITION 2: FORM -> CALCULATION ENGINE & SUBMIT */
+        /* CLIENT VALIDATION & SUBMIT */
         function startCalculationsAndSubmit() {
             const form = document.getElementById('intakeForm');
+            
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
+            }
+
+            const name = document.getElementById('inputName').value.trim();
+            const age = parseInt(document.getElementById('inputAge').value, 10);
+            const systolic = parseInt(document.getElementById('inputSystolic').value, 10);
+            const diastolic = parseInt(document.getElementById('inputDiastolic').value, 10);
+            const bmi = parseFloat(document.getElementById('bmiInput').value);
+            const sleep = parseFloat(document.getElementById('inputSleep').value);
+            const hr = parseInt(document.getElementById('inputRestingHR').value, 10);
+
+            if (!name) {
+                alert("Please enter the patient's full name.");
+                return;
+            }
+            if (age < 1 || age > 120) {
+                alert("Age must be between 1 and 120 years.");
+                return;
+            }
+            if (systolic < 60 || systolic > 250) {
+                alert("Systolic Blood Pressure must be between 60 and 250 mmHg.");
+                return;
+            }
+            if (diastolic < 30 || diastolic > 150) {
+                alert("Diastolic Blood Pressure must be between 30 and 150 mmHg.");
+                return;
+            }
+            if (diastolic >= systolic) {
+                alert("Diastolic pressure cannot be equal to or higher than Systolic pressure.");
+                return;
+            }
+            if (isNaN(bmi) || bmi < 10.0 || bmi > 60.0) {
+                alert("BMI must be calculated or entered between 10.0 and 60.0.");
+                return;
+            }
+            if (sleep < 1.0 || sleep > 24.0) {
+                alert("Sleep duration must be between 1 and 24 hours per day.");
+                return;
+            }
+            if (hr < 30 || hr > 220) {
+                alert("Resting Heart Rate must be between 30 and 220 bpm.");
+                return;
+            }
+
+            if (document.getElementById('sugarInputMode').value === 'exact') {
+                const sugarVal = parseFloat(document.getElementById('inputSugar').value);
+                if (isNaN(sugarVal) || sugarVal < 40 || sugarVal > 500) {
+                    alert("Please enter a valid Fasting Blood Sugar reading between 40 and 500 mg/dL, or switch to Category mode.");
+                    return;
+                }
+            }
+
+            if (document.getElementById('cholInputMode').value === 'exact') {
+                const cholVal = parseFloat(document.getElementById('inputCholesterol').value);
+                if (isNaN(cholVal) || cholVal < 80 || cholVal > 600) {
+                    alert("Please enter a valid Cholesterol reading between 80 and 600 mg/dL, or switch to Category mode.");
+                    return;
+                }
             }
 
             const overlay = document.getElementById('loadingOverlay');
@@ -1385,14 +1605,6 @@
                 barFill.style.width = '100%';
                 form.submit();
             }, 3400);
-        }
-
-        function openBmiModal() {
-            document.getElementById('bmiModal').style.display = 'flex';
-        }
-
-        function closeBmiModal() {
-            document.getElementById('bmiModal').style.display = 'none';
         }
 
         function updateBmiBadge() {
@@ -1441,9 +1653,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#ffffff', boxWidth: 12, font: { size: 10 } } }
-                    },
+                    plugins: { legend: { labels: { color: '#ffffff', boxWidth: 12, font: { size: 10 } } } },
                     scales: {
                         x: { ticks: { color: '#cbd5e1', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.1)' } },
                         y: { ticks: { color: '#cbd5e1', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.1)' } }
